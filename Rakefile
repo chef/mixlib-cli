@@ -1,60 +1,54 @@
 require 'rubygems'
-require 'rake/gempackagetask'
-require 'rubygems/specification'
-require 'date'
+require 'rake'
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "mixlib-cli"
+    gem.summary = "A simple mixin for CLI interfaces, including option parsing"
+    gem.email = "info@opscode.com"
+    gem.homepage = "http://www.opscode.com"
+    gem.authors = ["Opscode, Inc."]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+end
+
 require 'spec/rake/spectask'
-require 'cucumber/rake/task'
-
-GEM = "mixlib-cli"
-GEM_VERSION = "1.0.0"
-AUTHOR = "Opscode, Inc."
-EMAIL = "info@opscode.com"
-HOMEPAGE = "http://www.opscode.com"
-SUMMARY = "A simple mixin for CLI interfaces, including option parsing"
-
-spec = Gem::Specification.new do |s|
-  s.name = GEM
-  s.version = GEM_VERSION
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README.rdoc", "LICENSE", "NOTIFY" ]
-  s.summary = SUMMARY
-  s.description = s.summary
-  s.author = AUTHOR
-  s.email = EMAIL
-  s.homepage = HOMEPAGE
-  
-  # Uncomment this to add a dependency
-  # s.add_dependency "foo"
-  
-  s.require_path = 'lib'
-  s.autorequire = GEM
-  s.files = %w(LICENSE README.rdoc Rakefile NOTIFY) + Dir.glob("{lib,spec}/**/*")
+Spec::Rake::SpecTask.new(:spec) do |spec|
+  spec.libs << 'lib' << 'spec'
+  spec.spec_files = FileList['spec/**/*_spec.rb']
 end
 
-task :default => :test
-
-desc "Run specs"
-Spec::Rake::SpecTask.new do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = %w(-fs --color)
+Spec::Rake::SpecTask.new(:rcov) do |spec|
+  spec.libs << 'lib' << 'spec'
+  spec.pattern = 'spec/**/*_spec.rb'
+  spec.rcov = true
 end
 
-desc "Run the spec"
-task :test => [ :spec ]
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
-
-desc "install the gem locally"
-task :install => [:package] do
-  sh %{sudo gem install pkg/#{GEM}-#{GEM_VERSION}}
-end
-
-desc "create a gemspec file"
-task :make_spec do
-  File.open("#{GEM}.gemspec", "w") do |file|
-    file.puts spec.to_ruby
+begin
+  require 'cucumber/rake/task'
+  Cucumber::Rake::Task.new(:features)
+rescue LoadError
+  task :features do
+    abort "Cucumber is not available. In order to run features, you must: sudo gem install cucumber"
   end
 end
+
+task :default => :spec
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  if File.exist?('VERSION.yml')
+    config = YAML.load(File.read('VERSION.yml'))
+    version = "#{config[:major]}.#{config[:minor]}.#{config[:patch]}"
+  else
+    version = ""
+  end
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "mixlib-cli #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
