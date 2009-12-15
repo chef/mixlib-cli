@@ -11,7 +11,7 @@ begin
     gem.authors = ["Opscode, Inc."]
   end
 rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install gemcutter jeweler (installs jeweler from gemcutter)"    
 end
 
 require 'spec/rake/spectask'
