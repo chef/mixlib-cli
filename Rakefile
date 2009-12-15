@@ -11,7 +11,7 @@ begin
     gem.authors = ["Opscode, Inc."]
   end
 rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install gemcutter jeweler (installs jeweler from gemcutter)"    
+  puts "Jeweler (or a dependency) not available. Install from gemcutter with: sudo gem install gemcutter jeweler"
 end
 
 require 'spec/rake/spectask'
