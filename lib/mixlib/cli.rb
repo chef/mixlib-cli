@@ -117,7 +117,7 @@ module Mixlib
     #
     # === Returns
     # argv<Array>:: Returns any un-parsed elements.
-    def parse_options(argv=ARGV)
+    def parse_options(argv=ARGV.dup)
       @opt_parser = OptionParser.new do |opts|  
         # Set the banner
         opts.banner = banner        
