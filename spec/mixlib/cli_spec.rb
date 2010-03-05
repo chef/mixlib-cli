@@ -167,7 +167,18 @@ describe Mixlib::CLI do
         @cli = TestCLI.new
         lambda { @cli.parse_options([]) }.should raise_error(SystemExit)
       end
-      
+    end
+
+    describe "after_parse_options" do
+      it "should preserve all of the commandline arguments, ARGV" do
+        TestCLI.option(:config_file, :short => "-c CONFIG")
+        @cli = TestCLI.new
+        argv_old = ARGV.dup
+        ARGV.replace ['-c','foo.rb']
+        @cli.parse_options()
+        ARGV.should == ['-c','foo.rb']
+        ARGV.replace argv_old
+      end
     end
   end
   
