@@ -72,4 +72,8 @@ Available arguments to 'option':
 :exit:: Exit your program with the exit code when this option is specified. Example: 0
 :proc:: If set, the configuration value will be set to the return value of this proc.
 
+=== New in 1.2.0
+
+We no longer destructively manipulate ARGV.
+
 Have fun!

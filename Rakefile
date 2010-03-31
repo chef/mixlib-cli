@@ -10,6 +10,7 @@ begin
     gem.homepage = "http://www.opscode.com"
     gem.authors = ["Opscode, Inc."]
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install from gemcutter with: sudo gem install gemcutter jeweler"
 end
