@@ -156,18 +156,46 @@ describe Mixlib::CLI do
         @cli.config[:i_am_boolean].should == true
       end
       
+      it "should set the corresponding config value to false when a boolean is prefixed with --no" do
+        TestCLI.option(:i_am_boolean, :long => "--[no-]bool", :boolean => true)
+        @cli = TestCLI.new
+        @cli.parse_options([ '--no-bool' ])
+        @cli.config[:i_am_boolean].should == false
+      end
+
       it "should exit if a config option has :exit set" do
         TestCLI.option(:i_am_exit, :short => "-x", :boolean => true, :exit => 0)
         @cli = TestCLI.new
         lambda { @cli.parse_options(["-x"]) }.should raise_error(SystemExit)
       end
-      
+
       it "should exit if a required option is missing" do
         TestCLI.option(:require_me, :short => "-r", :boolean => true, :required => true)
         @cli = TestCLI.new
         lambda { @cli.parse_options([]) }.should raise_error(SystemExit)
       end
-      
+
+      it "should not exit if a required option is specified" do
+        TestCLI.option(:require_me, :short => "-r", :boolean => true, :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["-r"])
+        @cli.config[:require_me].should == true
+      end
+
+      it "should not exit if a required boolean option is specified and false" do
+        TestCLI.option(:require_me, :long => "--[no-]req", :boolean => true, :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["--no-req"])
+        @cli.config[:require_me].should == false
+      end
+
+      it "should not exit if a required option is specified and empty" do
+        TestCLI.option(:require_me, :short => "-r VALUE", :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["-r", ""])
+        @cli.config[:require_me].should == ""
+      end
+
       it "should preserve all of the commandline arguments, ARGV" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
