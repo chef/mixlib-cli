@@ -155,7 +155,7 @@ module Mixlib
       
       # Deal with any required values
       options.each do |opt_key, opt_value|
-        if opt_value[:required]
+        if opt_value[:required] && !config.has_key?(opt_key)
           reqarg = opt_value[:short] || opt_value[:long]
           puts "You must supply #{reqarg}!"
           puts @opt_parser

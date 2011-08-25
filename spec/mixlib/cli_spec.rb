@@ -175,6 +175,27 @@ describe Mixlib::CLI do
         lambda { @cli.parse_options([]) }.should raise_error(SystemExit)
       end
 
+      it "should not exit if a required option is specified" do
+        TestCLI.option(:require_me, :short => "-r", :boolean => true, :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["-r"])
+        @cli.config[:require_me].should == true
+      end
+
+      it "should not exit if a required boolean option is specified and false" do
+        TestCLI.option(:require_me, :long => "--[no-]req", :boolean => true, :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["--no-req"])
+        @cli.config[:require_me].should == false
+      end
+
+      it "should not exit if a required option is specified and empty" do
+        TestCLI.option(:require_me, :short => "-r VALUE", :required => true)
+        @cli = TestCLI.new
+        @cli.parse_options(["-r", ""])
+        @cli.config[:require_me].should == ""
+      end
+
       it "should preserve all of the commandline arguments, ARGV" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
