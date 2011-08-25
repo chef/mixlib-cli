@@ -138,19 +138,11 @@ module Mixlib
               raise ArgumentError, "You must pass :on, :tail, or :head to :on"
             end
                       
-          parse_block = case opt_val[:boolean]
-            when true
-              Proc.new() do
-                config[opt_key] = (opt_val[:proc] && opt_val[:proc].call(true)) || true
-                puts opts if opt_val[:show_options]
-                exit opt_val[:exit] if opt_val[:exit]
-              end
-            when false
-              Proc.new() do |c|
-                config[opt_key] = (opt_val[:proc] && opt_val[:proc].call(c)) || c
-                puts opts if opt_val[:show_options]
-                exit opt_val[:exit] if opt_val[:exit]
-              end
+          parse_block =
+            Proc.new() do |c|
+              config[opt_key] = (opt_val[:proc] && opt_val[:proc].call(c)) || c
+              puts opts if opt_val[:show_options]
+              exit opt_val[:exit] if opt_val[:exit]
             end
                     
           full_opt = [ opt_method ]
