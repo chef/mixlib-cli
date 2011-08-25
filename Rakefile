@@ -22,13 +22,13 @@ begin
   end
 rescue LoadError
   task :spec do
-    abort "RSpec 2.0+ is not available. (sudo) install rspec."
+    abort "RSpec 2.0+ is not available. (sudo) gem install rspec."
   end
 end
 
 task :default => :spec
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   if File.exist?('VERSION.yml')
     require 'yaml'
