@@ -29,7 +29,7 @@ end
 task :default => :spec
 
 require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
+RDoc::Task.new do |rdoc|
   if File.exist?('VERSION.yml')
     require 'yaml'
     config = YAML.load(File.read('VERSION.yml'))
