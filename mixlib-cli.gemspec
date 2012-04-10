@@ -1,3 +1,4 @@
+$:.unshift(File.dirname(__FILE__) + '/lib')
 require 'mixlib/cli/version'
 
 Gem::Specification.new do |s|
