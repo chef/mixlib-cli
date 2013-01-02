@@ -18,6 +18,8 @@
 
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "spec_helper"))
 
+module Kernel; def puts(*args) end end
+
 describe Mixlib::CLI do  
   after(:each) do
     TestCLI.options = {}
