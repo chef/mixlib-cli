@@ -19,8 +19,27 @@
 require 'optparse'
 
 module Mixlib
+
+  # == Mixlib::CLI
+  # Adds a DSL for defining command line options and methods for parsing those
+  # options to the including class.
+  #
+  # Mixlib::CLI does some setup in #initialize, so the including class must
+  # call `super()` if it defines a custom initializer.
+  #
+  # === DSL
+  # When included, Mixlib::CLI also extends the including class with its
+  # ClassMethods, which define the DSL. The primary methods of the DSL are
+  # ClassMethods#option, which defines a command line option, and
+  # ClassMethods#banner, which defines the "usage" banner.
+  #
+  # === Parsing
+  # Command line options are parsed by calling the instance method
+  # #parse_options. After calling this method, the attribute #config will
+  # contain a hash of `:option_name => value` pairs.
   module CLI
     module ClassMethods
+
       # Add a command line option.
       #
       # === Parameters
@@ -73,7 +92,26 @@ module Mixlib
       end
     end
 
-    attr_accessor :options, :config, :banner, :opt_parser
+    # Gives the command line options definition as configured in the DSL. These
+    # are used by #parse_options to generate the option parsing code. To get
+    # the values supplied by the user, see #config.
+    attr_accessor :options
+
+    # A Hash containing the values supplied by command line options. After
+    # initialization, +config+ will contain any default values defined via the
+    # mixlib-config DSL. When #parse_options is called, user-supplied values
+    # (from ARGV) will be merged in.
+    attr_accessor :config
+
+    # Banner for the option parser. If the option parser is printed, e.g., by
+    # `puts opt_parser`, this string will be used as the first line.
+    attr_accessor :banner
+
+    # The option parser generated from the mixlib-cli DSL. Set to nil on
+    # initialize; when #parse_options is called +opt_parser+ is set to an
+    # instance of OptionParser. +opt_parser+ can be used to print a help
+    # message including the banner and any CLI options via `puts opt_parser`.
+    attr_accessor :opt_parser
 
     # Create a new Mixlib::CLI class.  If you override this, make sure you call super!
     #
