@@ -40,6 +40,16 @@ module Mixlib
   module CLI
     module ClassMethods
 
+      # When this setting is set to +true+, default values supplied to the
+      # mixlib-cli DSL will be stored in a separate Hash
+      def use_separate_default_options(true_or_false)
+        @separate_default_options = true_or_false
+      end
+
+      def use_separate_defaults?
+        @separate_default_options || false
+      end
+
       # Add a command line option.
       #
       # === Parameters
@@ -97,11 +107,26 @@ module Mixlib
     # the values supplied by the user, see #config.
     attr_accessor :options
 
-    # A Hash containing the values supplied by command line options. After
-    # initialization, +config+ will contain any default values defined via the
-    # mixlib-config DSL. When #parse_options is called, user-supplied values
-    # (from ARGV) will be merged in.
+    # A Hash containing the values supplied by command line options.
+    #
+    # The behavior and contents of this Hash vary depending on whether
+    # ClassMethods#use_separate_default_options is enabled.
+    # ==== use_separate_default_options *disabled*
+    # After initialization, +config+ will contain any default values defined
+    # via the mixlib-config DSL. When #parse_options is called, user-supplied
+    # values (from ARGV) will be merged in.
+    # ==== use_separate_default_options *enabled*
+    # After initialization, this will be an empty hash. When #parse_options is
+    # called, +config+ is populated *only* with user-supplied values.
     attr_accessor :config
+
+    # If ClassMethods#use_separate_default_options is enabled, this will be a
+    # Hash containing key value pairs of `:option_name => default_value`
+    # (populated during object initialization).
+    #
+    # If use_separate_default_options is disabled, it will always be an empty
+    # hash.
+    attr_accessor :default_config
 
     # Banner for the option parser. If the option parser is printed, e.g., by
     # `puts opt_parser`, this string will be used as the first line.
@@ -123,6 +148,8 @@ module Mixlib
     def initialize(*args)
       @options = Hash.new
       @config  = Hash.new
+      @default_config = Hash.new
+      @opt_parser = nil
 
       # Set the banner
       @banner  = self.class.banner
@@ -130,6 +157,13 @@ module Mixlib
       # Dupe the class options for this instance
       klass_options = self.class.options
       klass_options.keys.inject(@options) { |memo, key| memo[key] = klass_options[key].dup; memo }
+
+      # If use_separate_defaults? is on, default values go in @default_config
+      defaults_container = if self.class.use_separate_defaults?
+                             @default_config
+                           else
+                             @config
+                           end
 
       # Set the default configuration values for this instance
       @options.each do |config_key, config_opts|
@@ -141,7 +175,7 @@ module Mixlib
         config_opts[:exit] ||= nil
 
         if config_opts.has_key?(:default)
-          @config[config_key] = config_opts[:default]
+          defaults_container[config_key] = config_opts[:default]
         end
       end
 
