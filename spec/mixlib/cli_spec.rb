@@ -57,7 +57,7 @@ describe Mixlib::CLI do
     end
   end
 
-  describe "instance methods" do
+  context "when configured with default single-config-hash behavior" do
 
     before(:each) do
       @cli = TestCLI.new
@@ -212,6 +212,27 @@ describe Mixlib::CLI do
         @cli.parse_options([ '-p', 'opscode', 'hard' ]).should == ['hard']
       end
     end
+  end
+
+  context "when configured to separate default options" do
+    before do
+      TestCLI.use_separate_default_options true
+      TestCLI.option(:defaulter, :short => "-D SOMETHING", :default => "this is the default")
+      @cli = TestCLI.new
+    end
+
+    it "sets default values on the `default` hash" do
+      @cli.parse_options([])
+      @cli.default_config[:defaulter].should == "this is the default"
+      @cli.config[:defaulter].should be_nil
+    end
+
+    it "sets parsed values on the `config` hash" do
+      @cli.parse_options(%w[-D not-default])
+      @cli.default_config[:defaulter].should == "this is the default"
+      @cli.config[:defaulter].should == "not-default"
+    end
+
   end
 
 end
