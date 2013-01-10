@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rspec/core/rake_task'
 require 'rdoc/task'
 
@@ -12,7 +12,7 @@ end
 
 gem_spec = eval(File.read("mixlib-cli.gemspec"))
 
-Rake::GemPackageTask.new(gem_spec) do |pkg|
+Gem::PackageTask.new(gem_spec) do |pkg|
   pkg.gem_spec = gem_spec
 end
 
