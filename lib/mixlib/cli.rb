@@ -47,7 +47,7 @@ module Mixlib
       end
 
       def use_separate_defaults?
-        @separate_default_options || false
+        @separate_default_options ||= false
       end
 
       # Add a command line option.
