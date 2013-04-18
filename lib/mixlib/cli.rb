@@ -38,8 +38,32 @@ module Mixlib
   # #parse_options. After calling this method, the attribute #config will
   # contain a hash of `:option_name => value` pairs.
   module CLI
-    module ClassMethods
+    
+    module InheritMethods
+      def inherited(receiver)
+        receiver.options = deep_dup(self.options)
+        receiver.extend(Mixlib::CLI::InheritMethods)
+      end
 
+      def deep_dup(thing)
+        new_thing = thing.respond_to?(:dup) ? thing.dup : thing
+        if(new_thing.kind_of?(Enumerable))
+          if(new_thing.kind_of?(Hash))
+            duped = new_thing.map do |key, value|
+              [deep_dup(key), deep_dup(value)]
+            end
+            new_thing = new_thing.class[*duped.flatten]
+          else
+            new_thing.map!{|value| deep_dup(value)}
+          end
+        end
+        new_thing
+      rescue TypeError
+        thing
+      end
+    end
+    
+    module ClassMethods
       # When this setting is set to +true+, default values supplied to the
       # mixlib-cli DSL will be stored in a separate Hash
       def use_separate_default_options(true_or_false)
@@ -255,6 +279,7 @@ module Mixlib
 
     def self.included(receiver)
       receiver.extend(Mixlib::CLI::ClassMethods)
+      receiver.extend(Mixlib::CLI::InheritMethods)
     end
 
   end
