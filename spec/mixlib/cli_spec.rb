@@ -255,7 +255,7 @@ describe Mixlib::CLI do
       end
       T2.options[:arg1][:boolean] = false
       T2.options[:arg1][:boolean].should be_false
-      T1.options[:arg1][:boolean].should be_true
+      TestCLI.options[:arg1][:boolean].should be_true
     end
 
     it "should pass its options onto child" do
