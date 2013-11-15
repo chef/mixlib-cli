@@ -38,31 +38,45 @@ module Mixlib
   # #parse_options. After calling this method, the attribute #config will
   # contain a hash of `:option_name => value` pairs.
   module CLI
-    
+
     module InheritMethods
       def inherited(receiver)
         receiver.options = deep_dup(self.options)
         receiver.extend(Mixlib::CLI::InheritMethods)
       end
 
-      def deep_dup(thing)
-        new_thing = thing.respond_to?(:dup) ? thing.dup : thing
-        if(new_thing.kind_of?(Enumerable))
-          if(new_thing.kind_of?(Hash))
-            duped = new_thing.map do |key, value|
-              [deep_dup(key), deep_dup(value)]
+      # object:: Instance to clone
+      # This method will return a "deep clone" of the provided
+      # `object`. If the provided `object` is an enumerable type the
+      # contents will be iterated and cloned as well.
+      def deep_dup(object)
+        cloned_object = object.respond_to?(:dup) ? object.dup : object
+        if(cloned_object.kind_of?(Enumerable))
+          if(cloned_object.kind_of?(Hash))
+            new_hash = cloned_object.class.new
+            cloned_object.each do |key, value|
+              cloned_key = deep_dup(key)
+              cloned_value = deep_dup(value)
+              new_hash[cloned_key] = cloned_value
             end
-            new_thing = new_thing.class[*duped.flatten]
+            cloned_object.replace(new_hash)
           else
-            new_thing.map!{|value| deep_dup(value)}
+            cloned_object.map! do |shallow_instance|
+              deep_dup(shallow_instance)
+            end
           end
         end
-        new_thing
+        cloned_object
       rescue TypeError
-        thing
+        # Symbol will happily provide a `#dup` method even though
+        # attempts to clone it will result in an exception (atoms!).
+        # So if we run into an issue of TypeErrors, just return the
+        # original object as we gave our "best effort"
+        object
       end
+
     end
-    
+
     module ClassMethods
       # When this setting is set to +true+, default values supplied to the
       # mixlib-cli DSL will be stored in a separate Hash
