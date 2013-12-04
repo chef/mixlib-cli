@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
   
   # Uncomment this to add a dependency
   #s.add_dependency "mixlib-log"
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
   
   s.require_path = 'lib'
   s.files = %w(LICENSE README.rdoc Rakefile NOTICE) + Dir.glob("{lib,spec}/**/*")
