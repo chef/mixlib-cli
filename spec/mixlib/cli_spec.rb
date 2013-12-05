@@ -206,10 +206,11 @@ describe Mixlib::CLI do
         ARGV.replace argv_old
       end
 
-      it "should return any un-parsed elements" do
+      it "should preserve and return any un-parsed elements" do
         TestCLI.option(:party, :short => "-p LOCATION")
         @cli = TestCLI.new
-        @cli.parse_options([ '-p', 'opscode', 'hard' ]).should == ['hard']
+        @cli.parse_options([ 'easy', '-p', 'opscode', 'hard' ]).should == ['easy', 'hard']
+        @cli.cli_arguments.should == ['easy', 'hard']
       end
     end
   end
