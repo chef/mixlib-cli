@@ -128,6 +128,9 @@ module Mixlib
     # hash.
     attr_accessor :default_config
 
+    # Any arguments which were not parsed and placed in "config"--the leftovers.
+    attr_accessor :cli_arguments
+
     # Banner for the option parser. If the option parser is printed, e.g., by
     # `puts opt_parser`, this string will be used as the first line.
     attr_accessor :banner
@@ -235,6 +238,7 @@ module Mixlib
         end
       end
 
+      @cli_arguments = argv
       argv
     end
 
