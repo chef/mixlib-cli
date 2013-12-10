@@ -72,6 +72,13 @@ Available arguments to 'option':
 :exit:: Exit your program with the exit code when this option is specified. Example: 0
 :proc:: If set, the configuration value will be set to the return value of this proc.
 
+If you need access to the leftover options that aren't captured in the config, you can get at them through +cli_arguments+ (referring to the above definition of MyCLI).
+
+  # ARGV = [ '-c', 'foo.rb', '-l', 'debug', 'file1', 'file2', 'file3' ]
+  cli = MyCLI.new
+  cli.parse_options
+  cli.cli_arguments # [ 'file1', 'file2', 'file3' ]
+
 === New in 1.2.2
 
 :required works, and we now support Ruby-style boolean option negation
