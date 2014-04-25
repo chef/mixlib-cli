@@ -135,12 +135,6 @@ module Mixlib
     # `puts opt_parser`, this string will be used as the first line.
     attr_accessor :banner
 
-    # The option parser generated from the mixlib-cli DSL. Set to nil on
-    # initialize; when #parse_options is called +opt_parser+ is set to an
-    # instance of OptionParser. +opt_parser+ can be used to print a help
-    # message including the banner and any CLI options via `puts opt_parser`.
-    attr_accessor :opt_parser
-
     # Create a new Mixlib::CLI class.  If you override this, make sure you call super!
     #
     # === Parameters
@@ -194,7 +188,30 @@ module Mixlib
     # argv<Array>:: Returns any un-parsed elements.
     def parse_options(argv=ARGV)
       argv = argv.dup
-      @opt_parser = OptionParser.new do |opts|
+      opt_parser.parse!(argv)
+
+      # Deal with any required values
+      options.each do |opt_key, opt_value|
+        if opt_value[:required] && !config.has_key?(opt_key)
+          reqarg = opt_value[:short] || opt_value[:long]
+          puts "You must supply #{reqarg}!"
+          puts @opt_parser
+          exit 2
+        end
+      end
+
+      @cli_arguments = argv
+      argv
+    end
+
+
+    # The option parser generated from the mixlib-cli DSL. +opt_parser+ can be
+    # used to print a help message including the banner and any CLI options via
+    # `puts opt_parser`.
+    # === Returns
+    # opt_parser<OptionParser>:: The option parser object.
+    def opt_parser
+      @opt_parser ||= OptionParser.new do |opts|
         # Set the banner
         opts.banner = banner
 
@@ -226,20 +243,6 @@ module Mixlib
           opts.send(*full_opt)
         end
       end
-      @opt_parser.parse!(argv)
-
-      # Deal with any required values
-      options.each do |opt_key, opt_value|
-        if opt_value[:required] && !config.has_key?(opt_key)
-          reqarg = opt_value[:short] || opt_value[:long]
-          puts "You must supply #{reqarg}!"
-          puts @opt_parser
-          exit 2
-        end
-      end
-
-      @cli_arguments = argv
-      argv
     end
 
     def build_option_arguments(opt_setting)
