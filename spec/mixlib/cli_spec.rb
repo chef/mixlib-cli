@@ -175,26 +175,26 @@ describe Mixlib::CLI do
         @cli = TestCLI.new
         lambda { @cli.parse_options([]) }.should raise_error(SystemExit)
       end
-      
+
       it "should exit if option is not included in the list" do
         TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'])
         @cli = TestCLI.new
         lambda { @cli.parse_options(['-i', 'three']) }.should raise_error(SystemExit)
       end
-      
-      it "should exit if options key :in is not an array" do
+
+      it "should raise ArgumentError if options key :in is not an array" do
         TestCLI.option(:inclusion, :short => "-i val", :in => 'foo')
         @cli = TestCLI.new
         lambda { @cli.parse_options(['-i', 'three']) }.should raise_error(ArgumentError)
       end
-      
+
       it "should not exit if option is included in the list" do
         TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'])
         @cli = TestCLI.new
         @cli.parse_options(['-i', 'one'])
         @cli.config[:inclusion].should == 'one'
       end
-      
+
       it "should change description if :in key is specified" do
         TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'], :description => 'desc')
         @cli = TestCLI.new
