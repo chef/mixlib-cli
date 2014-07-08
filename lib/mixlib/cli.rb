@@ -265,7 +265,7 @@ module Mixlib
       if opt_setting.has_key?(:description)
         description = opt_setting[:description]
         description << " (required)" if opt_setting[:required]
-        description << " (included in #{opt_setting[:in]})" if opt_setting[:in]
+        description << " (included in ['#{opt_setting[:in].join("', '")}'])" if opt_setting[:in]
         arguments << description
       end
 

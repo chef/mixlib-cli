@@ -198,7 +198,7 @@ describe Mixlib::CLI do
         TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'], :description => 'desc')
         @cli = TestCLI.new
         @cli.parse_options(['-i', 'one'])
-        @cli.options[:inclusion][:description].should == "desc (included in [\"one\", \"two\"])"
+        @cli.options[:inclusion][:description].should == "desc (included in ['one', 'two'])"
       end
 
       it "should not exit if a required option is specified" do
