@@ -92,16 +92,15 @@ describe Mixlib::CLI do
       end
     end
 
-    describe "parse_options" do
+    describe "opt_parser" do
+
       it "should set the banner in opt_parse" do
-        @cli.parse_options([])
         @cli.opt_parser.banner.should == @cli.banner
       end
 
       it "should present the arguments in the banner" do
         TestCLI.option(:config_file, :short => "-l LOG")
         @cli = TestCLI.new
-        @cli.parse_options([])
         @cli.opt_parser.to_s.should =~ /-l LOG/
       end
 
@@ -109,7 +108,6 @@ describe Mixlib::CLI do
         TestCLI.option(:config_file, :short => "-l LOG")
         TestCLI.option(:help, :short => "-h", :boolean => true, :on => :tail)
         @cli = TestCLI.new
-        @cli.parse_options([])
         @cli.opt_parser.to_s.split("\n").last.should =~ /-h/
       end
 
@@ -117,7 +115,6 @@ describe Mixlib::CLI do
         TestCLI.option(:config_file, :short => "-l LOG")
         TestCLI.option(:help, :short => "-h", :boolean => true, :on => :head)
         @cli = TestCLI.new
-        @cli.parse_options([])
         @cli.opt_parser.to_s.split("\n")[1].should =~ /-h/
       end
 
@@ -126,13 +123,15 @@ describe Mixlib::CLI do
         TestCLI.option(:beta, :short => "-b BETA")
         TestCLI.option(:zeta, :short => "-z ZETA")
         @cli = TestCLI.new
-        @cli.parse_options([])
         output_lines = @cli.opt_parser.to_s.split("\n")
         output_lines[1].should =~ /-a ALPHA/
         output_lines[2].should =~ /-b BETA/
         output_lines[3].should =~ /-z ZETA/
       end
 
+    end
+
+    describe "parse_options" do
       it "should set the corresponding config value for non-boolean arguments" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
@@ -233,10 +232,11 @@ describe Mixlib::CLI do
         ARGV.replace argv_old
       end
 
-      it "should return any un-parsed elements" do
+      it "should preserve and return any un-parsed elements" do
         TestCLI.option(:party, :short => "-p LOCATION")
         @cli = TestCLI.new
-        @cli.parse_options([ '-p', 'opscode', 'hard' ]).should == ['hard']
+        @cli.parse_options([ 'easy', '-p', 'opscode', 'hard' ]).should == ['easy', 'hard']
+        @cli.cli_arguments.should == ['easy', 'hard']
       end
     end
   end
