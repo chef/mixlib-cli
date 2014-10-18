@@ -189,15 +189,27 @@ module Mixlib
     def parse_options(argv=ARGV)
       argv = argv.dup
       opt_parser.parse!(argv)
+      prereqs = Array.new
 
       # Deal with any required values
       options.each do |opt_key, opt_value|
         if opt_value[:required] && !config.has_key?(opt_key)
           reqarg = opt_value[:short] || opt_value[:long]
-          puts "You must supply #{reqarg}!"
-          puts @opt_parser
-          exit 2
+          prereqs << reqarg
         end
+      end
+      if prereqs.length >= 1
+        if prereqs.length >= 2
+          puts "You must supply at least:"
+          prereqs.each do |req|
+            puts "    #{req}"
+          end
+        else
+          puts "You must supply at least \"#{prereqs.first}\""
+        end
+        puts
+        puts @opt_parser
+        exit 2
       end
 
       @cli_arguments = argv
