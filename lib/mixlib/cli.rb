@@ -170,6 +170,7 @@ module Mixlib
         config_opts[:proc] ||= nil
         config_opts[:show_options] ||= false
         config_opts[:exit] ||= nil
+        config_opts[:in] ||= nil
 
         if config_opts.has_key?(:default)
           defaults_container[config_key] = config_opts[:default]
@@ -197,6 +198,17 @@ module Mixlib
           puts "You must supply #{reqarg}!"
           puts @opt_parser
           exit 2
+        end
+        if opt_value[:in]
+          unless opt_value[:in].kind_of?(Array)
+            raise(ArgumentError, "Options config key :in must receive an Array")
+          end
+          if !opt_value[:in].include?(config[opt_key])
+            reqarg = opt_value[:short] || opt_value[:long]
+            puts "#{reqarg}: #{config[opt_key]} is not included in the list ['#{opt_value[:in].join("', '")}'] "
+            puts @opt_parser
+            exit 2
+          end
         end
       end
 
@@ -250,10 +262,10 @@ module Mixlib
 
       arguments << opt_setting[:short] if opt_setting.has_key?(:short)
       arguments << opt_setting[:long] if opt_setting.has_key?(:long)
-
       if opt_setting.has_key?(:description)
         description = opt_setting[:description]
         description << " (required)" if opt_setting[:required]
+        description << " (included in ['#{opt_setting[:in].join("', '")}'])" if opt_setting[:in]
         arguments << description
       end
 

@@ -19,6 +19,7 @@ Mixlib::CLI provides a class-based command line option parsing object, like the 
       :long  => "--log_level LEVEL",
       :description => "Set the log level (debug, info, warn, error, fatal)",
       :required => true,
+      :in => ['debug', 'info', 'warn', 'error', 'fatal']
       :proc => Proc.new { |l| l.to_sym }
       
     option :help,
@@ -71,6 +72,7 @@ Available arguments to 'option':
 :show_options:: If you want the option list printed when this option is called, set this to true.
 :exit:: Exit your program with the exit code when this option is specified. Example: 0
 :proc:: If set, the configuration value will be set to the return value of this proc.
+:in:: An array containing the list of accepted values
 
 If you need access to the leftover options that aren't captured in the config, you can get at them through +cli_arguments+ (referring to the above definition of MyCLI).
 
