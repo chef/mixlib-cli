@@ -20,6 +20,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rdoc'
   
   s.require_path = 'lib'
-  s.files = %w(LICENSE README.rdoc Rakefile NOTICE) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(LICENSE README.rdoc Gemfile Rakefile NOTICE) + Dir.glob("{lib,spec}/**/*")
 end
 
