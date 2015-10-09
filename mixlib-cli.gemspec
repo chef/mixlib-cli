@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rdoc'
   
   s.require_path = 'lib'
-  s.files = %w(LICENSE README.rdoc Gemfile Rakefile NOTICE) + Dir.glob("{lib,spec}/**/*")
+  s.files = %w(LICENSE README.rdoc Gemfile Rakefile NOTICE) + Dir.glob("*.gemspec") +
+      Dir.glob("{lib,spec}/**/*", File::FNM_DOTMATCH).reject {|f| File.directory?(f) }
 end
 
