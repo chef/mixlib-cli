@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-require 'optparse'
+require "optparse"
 
 module Mixlib
 
@@ -92,7 +92,7 @@ module Mixlib
       #
       # === Returns
       # @banner<String>:: The current banner
-      def banner(bstring=nil)
+      def banner(bstring = nil)
         if bstring
           @banner = bstring
         else
@@ -149,7 +149,7 @@ module Mixlib
       @opt_parser = nil
 
       # Set the banner
-      @banner  = self.class.banner
+      @banner = self.class.banner
 
       # Dupe the class options for this instance
       klass_options = self.class.options
@@ -187,7 +187,7 @@ module Mixlib
     #
     # === Returns
     # argv<Array>:: Returns any un-parsed elements.
-    def parse_options(argv=ARGV)
+    def parse_options(argv = ARGV)
       argv = argv.dup
       opt_parser.parse!(argv)
 
@@ -215,7 +215,6 @@ module Mixlib
       @cli_arguments = argv
       argv
     end
-
 
     # The option parser generated from the mixlib-cli DSL. +opt_parser+ can be
     # used to print a help message including the banner and any CLI options via

@@ -27,21 +27,21 @@ describe Mixlib::CLI do
   describe "class method" do
     describe "option" do
       it "should allow you to set a config option with a hash" do
-        TestCLI.option(:config_file, :short => '-c CONFIG').should == { :short => '-c CONFIG' }
+        TestCLI.option(:config_file, :short => "-c CONFIG").should == { :short => "-c CONFIG" }
       end
     end
 
     describe "options" do
       it "should return the current options hash" do
-        TestCLI.option(:config_file, :short => '-c CONFIG')
-        TestCLI.options.should == { :config_file => { :short => '-c CONFIG' } }
+        TestCLI.option(:config_file, :short => "-c CONFIG")
+        TestCLI.options.should == { :config_file => { :short => "-c CONFIG" } }
       end
     end
 
     describe "options=" do
       it "should allow you to set the full options with a single hash" do
-        TestCLI.options = { :config_file => { :short => '-c CONFIG' } }
-        TestCLI.options.should == { :config_file => { :short => '-c CONFIG' } }
+        TestCLI.options = { :config_file => { :short => "-c CONFIG" } }
+        TestCLI.options.should == { :config_file => { :short => "-c CONFIG" } }
       end
     end
 
@@ -80,7 +80,7 @@ describe Mixlib::CLI do
             :proc => nil,
             :show_options => false,
             :exit => nil,
-            :in => nil
+            :in => nil,
           }
         }
       end
@@ -135,14 +135,14 @@ describe Mixlib::CLI do
       it "should set the corresponding config value for non-boolean arguments" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
-        @cli.parse_options([ '-c', 'foo.rb' ])
-        @cli.config[:config_file].should == 'foo.rb'
+        @cli.parse_options([ "-c", "foo.rb" ])
+        @cli.config[:config_file].should == "foo.rb"
       end
 
       it "should set the corresponding config value according to a supplied proc" do
         TestCLI.option(:number,
           :short => "-n NUMBER",
-          :proc => Proc.new { |config| config.to_i + 2 }
+          :proc => Proc.new { |config| config.to_i + 2 },
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2" ])
@@ -152,14 +152,14 @@ describe Mixlib::CLI do
       it "should set the corresponding config value to true for boolean arguments" do
         TestCLI.option(:i_am_boolean, :short => "-i", :boolean => true)
         @cli = TestCLI.new
-        @cli.parse_options([ '-i' ])
+        @cli.parse_options([ "-i" ])
         @cli.config[:i_am_boolean].should == true
       end
 
       it "should set the corresponding config value to false when a boolean is prefixed with --no" do
         TestCLI.option(:i_am_boolean, :long => "--[no-]bool", :boolean => true)
         @cli = TestCLI.new
-        @cli.parse_options([ '--no-bool' ])
+        @cli.parse_options([ "--no-bool" ])
         @cli.config[:i_am_boolean].should == false
       end
 
@@ -176,28 +176,28 @@ describe Mixlib::CLI do
       end
 
       it "should exit if option is not included in the list" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'])
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
         @cli = TestCLI.new
-        lambda { @cli.parse_options(['-i', 'three']) }.should raise_error(SystemExit)
+        lambda { @cli.parse_options(["-i", "three"]) }.should raise_error(SystemExit)
       end
 
       it "should raise ArgumentError if options key :in is not an array" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => 'foo')
+        TestCLI.option(:inclusion, :short => "-i val", :in => "foo")
         @cli = TestCLI.new
-        lambda { @cli.parse_options(['-i', 'three']) }.should raise_error(ArgumentError)
+        lambda { @cli.parse_options(["-i", "three"]) }.should raise_error(ArgumentError)
       end
 
       it "should not exit if option is included in the list" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'])
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
         @cli = TestCLI.new
-        @cli.parse_options(['-i', 'one'])
-        @cli.config[:inclusion].should == 'one'
+        @cli.parse_options(["-i", "one"])
+        @cli.config[:inclusion].should == "one"
       end
 
       it "should change description if :in key is specified" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => ['one', 'two'], :description => 'desc')
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :description => "desc")
         @cli = TestCLI.new
-        @cli.parse_options(['-i', 'one'])
+        @cli.parse_options(["-i", "one"])
         @cli.options[:inclusion][:description].should == "desc (included in ['one', 'two'])"
       end
 
@@ -226,17 +226,17 @@ describe Mixlib::CLI do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
         argv_old = ARGV.dup
-        ARGV.replace ['-c','foo.rb']
+        ARGV.replace ["-c", "foo.rb"]
         @cli.parse_options()
-        ARGV.should == ['-c','foo.rb']
+        ARGV.should == ["-c", "foo.rb"]
         ARGV.replace argv_old
       end
 
       it "should preserve and return any un-parsed elements" do
         TestCLI.option(:party, :short => "-p LOCATION")
         @cli = TestCLI.new
-        @cli.parse_options([ 'easy', '-p', 'opscode', 'hard' ]).should == ['easy', 'hard']
-        @cli.cli_arguments.should == ['easy', 'hard']
+        @cli.parse_options([ "easy", "-p", "opscode", "hard" ]).should == %w{easy hard}
+        @cli.cli_arguments.should == %w{easy hard}
       end
     end
   end
@@ -255,7 +255,7 @@ describe Mixlib::CLI do
     end
 
     it "sets parsed values on the `config` hash" do
-      @cli.parse_options(%w[-D not-default])
+      @cli.parse_options(%w{-D not-default})
       @cli.default_config[:defaulter].should == "this is the default"
       @cli.config[:defaulter].should == "not-default"
     end
@@ -263,7 +263,6 @@ describe Mixlib::CLI do
   end
 
 end
-
 
 #  option :config_file,
 #    :short => "-c CONFIG",
