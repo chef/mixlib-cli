@@ -1,7 +1,7 @@
-$TESTING=true
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+$TESTING = true
+$:.push File.join(File.dirname(__FILE__), "..", "lib")
 
-require 'mixlib/cli'
+require "mixlib/cli"
 
 class TestCLI
   include Mixlib::CLI
@@ -13,4 +13,3 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.warnings = true
 end
-
