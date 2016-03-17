@@ -231,15 +231,15 @@ module Mixlib
           opt_args = build_option_arguments(opt_val)
 
           opt_method = case opt_val[:on]
-            when :on
-              :on
-            when :tail
-              :on_tail
-            when :head
-              :on_head
-            else
-              raise ArgumentError, "You must pass :on, :tail, or :head to :on"
-            end
+                       when :on
+                         :on
+                       when :tail
+                         :on_tail
+                       when :head
+                         :on_head
+                       else
+                         raise ArgumentError, "You must pass :on, :tail, or :head to :on"
+                       end
 
           parse_block =
             Proc.new() do |c|
