@@ -73,8 +73,8 @@ Available arguments to 'option':
 - `:description`: The description for this item, just like from optparse.
 - `:default`: A default value for this option
 - `:required`: Prints a message informing the user of the missing requirement, and exits.  Default is false.
-- `:on`: Set to :tail to appear at the end, or
-- :head to appear at the top. :boolean:: If this option takes no arguments, set this to true.
+- `:on`: Set to :tail to appear at the end, or `:head`: to appear at the top.
+- `:boolean:`: If this option takes no arguments, set this to true.
 - `:show_options`: If you want the option list printed when this option is called, set this to true.
 - `:exit`: Exit your program with the exit code when this option is specified. Example: 0
 - `:proc`: If set, the configuration value will be set to the return value of this proc.
