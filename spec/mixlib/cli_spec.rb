@@ -262,6 +262,54 @@ describe Mixlib::CLI do
 
   end
 
+  context "when subclassed" do
+    before do
+      TestCLI.options = {:arg1 => {:boolean => true}}
+    end
+
+    it "should retain previously defined options from parent" do
+      class T1 < TestCLI
+        option :arg2, :boolean => true
+      end
+      T1.options[:arg1].should be_a(Hash)
+      T1.options[:arg2].should be_a(Hash)
+      TestCLI.options[:arg2].should be_nil
+    end
+
+    it "should not be able to modify parent classes options" do
+      class T2 < TestCLI
+        option :arg2, :boolean => true
+      end
+      T2.options[:arg1][:boolean] = false
+      T2.options[:arg1][:boolean].should be_false
+      TestCLI.options[:arg1][:boolean].should be_true
+    end
+
+    it "should pass its options onto child" do
+      class T3 < TestCLI
+        option :arg2, :boolean => true
+      end
+      class T4 < T3
+        option :arg3, :boolean => true
+      end
+      3.times do |i|
+        T4.options["arg#{i + 1}".to_sym].should be_a(Hash)
+      end
+    end
+
+    it "should also work with an option that's an array" do
+      class T5 < TestCLI
+        option :arg2, :default => []
+      end
+
+      class T6 < T5
+      end
+
+      T6.options[:arg2].should be_a(Hash)
+    end
+
+  end
+
 end
 
 #  option :config_file,
