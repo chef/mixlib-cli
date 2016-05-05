@@ -51,8 +51,8 @@ module Mixlib
       # contents will be iterated and cloned as well.
       def deep_dup(object)
         cloned_object = object.respond_to?(:dup) ? object.dup : object
-        if(cloned_object.kind_of?(Enumerable))
-          if(cloned_object.kind_of?(Hash))
+        if cloned_object.kind_of?(Enumerable)
+          if cloned_object.kind_of?(Hash)
             new_hash = cloned_object.class.new
             cloned_object.each do |key, value|
               cloned_key = deep_dup(key)

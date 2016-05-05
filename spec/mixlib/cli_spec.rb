@@ -81,7 +81,7 @@ describe Mixlib::CLI do
             :show_options => false,
             :exit => nil,
             :in => nil,
-          }
+          },
         }
       end
 
@@ -142,7 +142,7 @@ describe Mixlib::CLI do
       it "should set the corresponding config value according to a supplied proc" do
         TestCLI.option(:number,
           :short => "-n NUMBER",
-          :proc => Proc.new { |config| config.to_i + 2 },
+          :proc => Proc.new { |config| config.to_i + 2 }
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2" ])
@@ -264,7 +264,7 @@ describe Mixlib::CLI do
 
   context "when subclassed" do
     before do
-      TestCLI.options = {:arg1 => {:boolean => true}}
+      TestCLI.options = { :arg1 => { :boolean => true } }
     end
 
     it "should retain previously defined options from parent" do
