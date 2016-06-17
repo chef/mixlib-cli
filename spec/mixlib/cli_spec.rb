@@ -156,7 +156,7 @@ describe Mixlib::CLI do
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2", "-n", "3" ])
-        @cli.config[:number].should == ["2", "3"]
+        @cli.config[:number].should == %w{2 3}
       end
 
       it "should set the corresponding config value to true for boolean arguments" do
