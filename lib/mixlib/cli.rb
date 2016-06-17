@@ -281,7 +281,18 @@ module Mixlib
 
           parse_block =
             Proc.new() do |c|
-              config[opt_key] = (opt_val[:proc] && opt_val[:proc].call(c)) || c
+              config[opt_key] = if opt_val[:proc]
+                if opt_val[:proc].arity == 2
+                  # New hotness to allow for reducer-style procs.
+                  opt_val[:proc].call(c, config[opt_key])
+                else
+                  # Older single-argument proc.
+                  opt_val[:proc].call(c)
+                end
+              else
+                # No proc.
+                c
+              end
               puts opts if opt_val[:show_options]
               exit opt_val[:exit] if opt_val[:exit]
             end
