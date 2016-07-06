@@ -149,6 +149,16 @@ describe Mixlib::CLI do
         @cli.config[:number].should == 4
       end
 
+      it "should pass the existing value to two-argument procs" do
+        TestCLI.option(:number,
+          :short => "-n NUMBER",
+          :proc => Proc.new { |value, existing| existing ||= []; existing << value; existing }
+        )
+        @cli = TestCLI.new
+        @cli.parse_options([ "-n", "2", "-n", "3" ])
+        @cli.config[:number].should == %w{2 3}
+      end
+
       it "should set the corresponding config value to true for boolean arguments" do
         TestCLI.option(:i_am_boolean, :short => "-i", :boolean => true)
         @cli = TestCLI.new
