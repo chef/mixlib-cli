@@ -1,7 +1,12 @@
 # mixlib-cli Changelog
 
-## UNRELEASED
+## 1.7.0
 
+- Support two-argument procs for reducer style
+
+## 1.6.0
+
+- Properly pass options during inheritance
 - Added option key ':in' to specify that option value should be included in the given list
 - Fixed ruby-warning "instance variable @{ivar} not initialized". - [Kenichi Kamiya](https://github.com/kachick)
 - Documented CLI arguments. - [C Chamblin](https://github.com/chamblin)
