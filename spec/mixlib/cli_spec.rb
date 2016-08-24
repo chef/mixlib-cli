@@ -1,6 +1,6 @@
 #
-# Author:: Adam Jacob (<adam@opscode.com>)
-# Copyright:: Copyright (c) 2008 Opscode, Inc.
+# Author:: Adam Jacob (<adam@chef.io>)
+# Copyright:: Copyright (c) 2008-2016 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,33 +26,33 @@ describe Mixlib::CLI do
 
   describe "class method" do
     describe "option" do
-      it "should allow you to set a config option with a hash" do
-        TestCLI.option(:config_file, :short => "-c CONFIG").should == { :short => "-c CONFIG" }
+      it "allows you to set a config option with a hash" do
+        expect(TestCLI.option(:config_file, :short => "-c CONFIG")).to eql({ :short => "-c CONFIG" })
       end
     end
 
     describe "options" do
-      it "should return the current options hash" do
+      it "returns the current options hash" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
-        TestCLI.options.should == { :config_file => { :short => "-c CONFIG" } }
+        expect(TestCLI.options).to eql({ :config_file => { :short => "-c CONFIG" } })
       end
     end
 
     describe "options=" do
-      it "should allow you to set the full options with a single hash" do
+      it "allows you to set the full options with a single hash" do
         TestCLI.options = { :config_file => { :short => "-c CONFIG" } }
-        TestCLI.options.should == { :config_file => { :short => "-c CONFIG" } }
+        expect(TestCLI.options).to eql({ :config_file => { :short => "-c CONFIG" } })
       end
     end
 
     describe "banner" do
-      it "should have a default value" do
-        TestCLI.banner.should =~ /^Usage: (.+) \(options\)$/
+      it "has a default value" do
+        expect(TestCLI.banner).to match(/^Usage: (.+) \(options\)$/)
       end
 
-      it "should allow you to set the banner" do
+      it "allows you to set the banner" do
         TestCLI.banner("Usage: foo")
-        TestCLI.banner.should == "Usage: foo"
+        expect(TestCLI.banner).to eql("Usage: foo")
       end
     end
   end
@@ -64,14 +64,14 @@ describe Mixlib::CLI do
     end
 
     describe "initialize" do
-      it "should set the banner to the class defined banner" do
-        @cli.banner.should == TestCLI.banner
+      it "sets the banner to the class defined banner" do
+        expect(@cli.banner).to eql(TestCLI.banner)
       end
 
-      it "should set the options to the class defined options, plus defaults" do
+      it "sets the options to the class defined options, plus defaults" do
         TestCLI.option(:config_file, :short => "-l LOG")
         cli = TestCLI.new
-        cli.options.should == {
+        expect(cli.options).to eql({
           :config_file => {
             :short => "-l LOG",
             :on => :on,
@@ -82,171 +82,171 @@ describe Mixlib::CLI do
             :exit => nil,
             :in => nil,
           },
-        }
+        })
       end
 
-      it "should set the default config value for any options that include it" do
+      it "sets the default config value for any options that include it" do
         TestCLI.option(:config_file, :short => "-l LOG", :default => :debug)
         @cli = TestCLI.new
-        @cli.config[:config_file].should == :debug
+        expect(@cli.config[:config_file]).to eql(:debug)
       end
     end
 
     describe "opt_parser" do
 
-      it "should set the banner in opt_parse" do
-        @cli.opt_parser.banner.should == @cli.banner
+      it "sets the banner in opt_parse" do
+        expect(@cli.opt_parser.banner).to eql(@cli.banner)
       end
 
-      it "should present the arguments in the banner" do
+      it "presents the arguments in the banner" do
         TestCLI.option(:config_file, :short => "-l LOG")
         @cli = TestCLI.new
-        @cli.opt_parser.to_s.should =~ /-l LOG/
+        expect(@cli.opt_parser.to_s).to match(/-l LOG/)
       end
 
-      it "should honor :on => :tail options in the banner" do
+      it "honors :on => :tail options in the banner" do
         TestCLI.option(:config_file, :short => "-l LOG")
         TestCLI.option(:help, :short => "-h", :boolean => true, :on => :tail)
         @cli = TestCLI.new
-        @cli.opt_parser.to_s.split("\n").last.should =~ /-h/
+        expect(@cli.opt_parser.to_s.split("\n").last).to match(/-h/)
       end
 
-      it "should honor :on => :head options in the banner" do
+      it "honors :on => :head options in the banner" do
         TestCLI.option(:config_file, :short => "-l LOG")
         TestCLI.option(:help, :short => "-h", :boolean => true, :on => :head)
         @cli = TestCLI.new
-        @cli.opt_parser.to_s.split("\n")[1].should =~ /-h/
+        expect(@cli.opt_parser.to_s.split("\n")[1]).to match(/-h/)
       end
 
-      it "should present the arguments in alphabetical order in the banner" do
+      it "presents the arguments in alphabetical order in the banner" do
         TestCLI.option(:alpha, :short => "-a ALPHA")
         TestCLI.option(:beta, :short => "-b BETA")
         TestCLI.option(:zeta, :short => "-z ZETA")
         @cli = TestCLI.new
         output_lines = @cli.opt_parser.to_s.split("\n")
-        output_lines[1].should =~ /-a ALPHA/
-        output_lines[2].should =~ /-b BETA/
-        output_lines[3].should =~ /-z ZETA/
+        expect(output_lines[1]).to match(/-a ALPHA/)
+        expect(output_lines[2]).to match(/-b BETA/)
+        expect(output_lines[3]).to match(/-z ZETA/)
       end
 
     end
 
     describe "parse_options" do
-      it "should set the corresponding config value for non-boolean arguments" do
+      it "sets the corresponding config value for non-boolean arguments" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
         @cli.parse_options([ "-c", "foo.rb" ])
-        @cli.config[:config_file].should == "foo.rb"
+        expect(@cli.config[:config_file]).to eql("foo.rb")
       end
 
-      it "should set the corresponding config value according to a supplied proc" do
+      it "sets the corresponding config value according to a supplied proc" do
         TestCLI.option(:number,
           :short => "-n NUMBER",
           :proc => Proc.new { |config| config.to_i + 2 }
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2" ])
-        @cli.config[:number].should == 4
+        expect(@cli.config[:number]).to eql(4)
       end
 
-      it "should pass the existing value to two-argument procs" do
+      it "passes the existing value to two-argument procs" do
         TestCLI.option(:number,
           :short => "-n NUMBER",
           :proc => Proc.new { |value, existing| existing ||= []; existing << value; existing }
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2", "-n", "3" ])
-        @cli.config[:number].should == %w{2 3}
+        expect(@cli.config[:number]).to eql(%w{2 3})
       end
 
-      it "should set the corresponding config value to true for boolean arguments" do
+      it "sets the corresponding config value to true for boolean arguments" do
         TestCLI.option(:i_am_boolean, :short => "-i", :boolean => true)
         @cli = TestCLI.new
         @cli.parse_options([ "-i" ])
-        @cli.config[:i_am_boolean].should == true
+        expect(@cli.config[:i_am_boolean]).to be true
       end
 
-      it "should set the corresponding config value to false when a boolean is prefixed with --no" do
+      it "sets the corresponding config value to false when a boolean is prefixed with --no" do
         TestCLI.option(:i_am_boolean, :long => "--[no-]bool", :boolean => true)
         @cli = TestCLI.new
         @cli.parse_options([ "--no-bool" ])
-        @cli.config[:i_am_boolean].should == false
+        expect(@cli.config[:i_am_boolean]).to be false
       end
 
-      it "should exit if a config option has :exit set" do
+      it "exits if a config option has :exit set" do
         TestCLI.option(:i_am_exit, :short => "-x", :boolean => true, :exit => 0)
         @cli = TestCLI.new
-        lambda { @cli.parse_options(["-x"]) }.should raise_error(SystemExit)
+        expect(lambda { @cli.parse_options(["-x"]) }).to raise_error(SystemExit)
       end
 
-      it "should exit if a required option is missing" do
+      it "exits if a required option is missing" do
         TestCLI.option(:require_me, :short => "-r", :boolean => true, :required => true)
         @cli = TestCLI.new
-        lambda { @cli.parse_options([]) }.should raise_error(SystemExit)
+        expect(lambda { @cli.parse_options([]) }).to raise_error(SystemExit)
       end
 
-      it "should exit if option is not included in the list" do
+      it "exits if option is not included in the list" do
         TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
         @cli = TestCLI.new
-        lambda { @cli.parse_options(["-i", "three"]) }.should raise_error(SystemExit)
+        expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(SystemExit)
       end
 
-      it "should raise ArgumentError if options key :in is not an array" do
+      it "raises ArgumentError if options key :in is not an array" do
         TestCLI.option(:inclusion, :short => "-i val", :in => "foo")
         @cli = TestCLI.new
-        lambda { @cli.parse_options(["-i", "three"]) }.should raise_error(ArgumentError)
+        expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(ArgumentError)
       end
 
-      it "should not exit if option is included in the list" do
+      it "doesn't exit if option is included in the list" do
         TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
-        @cli.config[:inclusion].should == "one"
+        expect(@cli.config[:inclusion]).to eql("one")
       end
 
-      it "should change description if :in key is specified" do
+      it "changes description if :in key is specified" do
         TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :description => "desc")
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
-        @cli.options[:inclusion][:description].should == "desc (included in ['one', 'two'])"
+        expect(@cli.options[:inclusion][:description]).to eql("desc (included in ['one', 'two'])")
       end
 
-      it "should not exit if a required option is specified" do
+      it "doesn't exit if a required option is specified" do
         TestCLI.option(:require_me, :short => "-r", :boolean => true, :required => true)
         @cli = TestCLI.new
         @cli.parse_options(["-r"])
-        @cli.config[:require_me].should == true
+        expect(@cli.config[:require_me]).to be true
       end
 
-      it "should not exit if a required boolean option is specified and false" do
+      it "doesn't exit if a required boolean option is specified and false" do
         TestCLI.option(:require_me, :long => "--[no-]req", :boolean => true, :required => true)
         @cli = TestCLI.new
         @cli.parse_options(["--no-req"])
-        @cli.config[:require_me].should == false
+        expect(@cli.config[:require_me]).to be false
       end
 
-      it "should not exit if a required option is specified and empty" do
+      it "doesn't exit if a required option is specified and empty" do
         TestCLI.option(:require_me, :short => "-r VALUE", :required => true)
         @cli = TestCLI.new
         @cli.parse_options(["-r", ""])
-        @cli.config[:require_me].should == ""
+        expect(@cli.config[:require_me]).to eql("")
       end
 
-      it "should preserve all of the commandline arguments, ARGV" do
+      it "preserves all of the commandline arguments, ARGV" do
         TestCLI.option(:config_file, :short => "-c CONFIG")
         @cli = TestCLI.new
         argv_old = ARGV.dup
         ARGV.replace ["-c", "foo.rb"]
         @cli.parse_options()
-        ARGV.should == ["-c", "foo.rb"]
+        expect(ARGV).to eql(["-c", "foo.rb"])
         ARGV.replace argv_old
       end
 
-      it "should preserve and return any un-parsed elements" do
+      it "preserves and return any un-parsed elements" do
         TestCLI.option(:party, :short => "-p LOCATION")
         @cli = TestCLI.new
-        @cli.parse_options([ "easy", "-p", "opscode", "hard" ]).should == %w{easy hard}
-        @cli.cli_arguments.should == %w{easy hard}
+        expect(@cli.parse_options([ "easy", "-p", "opscode", "hard" ])).to eql(%w{easy hard})
+        expect(@cli.cli_arguments).to eql(%w{easy hard})
       end
     end
   end
@@ -260,14 +260,14 @@ describe Mixlib::CLI do
 
     it "sets default values on the `default` hash" do
       @cli.parse_options([])
-      @cli.default_config[:defaulter].should == "this is the default"
-      @cli.config[:defaulter].should be_nil
+      expect(@cli.default_config[:defaulter]).to eql("this is the default")
+      expect(@cli.config[:defaulter]).to be_nil
     end
 
     it "sets parsed values on the `config` hash" do
       @cli.parse_options(%w{-D not-default})
-      @cli.default_config[:defaulter].should == "this is the default"
-      @cli.config[:defaulter].should == "not-default"
+      expect(@cli.default_config[:defaulter]).to eql("this is the default")
+      expect(@cli.config[:defaulter]).to eql("not-default")
     end
 
   end
@@ -277,25 +277,25 @@ describe Mixlib::CLI do
       TestCLI.options = { :arg1 => { :boolean => true } }
     end
 
-    it "should retain previously defined options from parent" do
+    it "retains previously defined options from parent" do
       class T1 < TestCLI
         option :arg2, :boolean => true
       end
-      T1.options[:arg1].should be_a(Hash)
-      T1.options[:arg2].should be_a(Hash)
-      TestCLI.options[:arg2].should be_nil
+      expect(T1.options[:arg1]).to be_a(Hash)
+      expect(T1.options[:arg2]).to be_a(Hash)
+      expect(TestCLI.options[:arg2]).to be_nil
     end
 
-    it "should not be able to modify parent classes options" do
+    it "isn't able to modify parent classes options" do
       class T2 < TestCLI
         option :arg2, :boolean => true
       end
       T2.options[:arg1][:boolean] = false
-      T2.options[:arg1][:boolean].should be_false
-      TestCLI.options[:arg1][:boolean].should be_true
+      expect(T2.options[:arg1][:boolean]).to be false
+      expect(TestCLI.options[:arg1][:boolean]).to be true
     end
 
-    it "should pass its options onto child" do
+    it "passes its options onto child" do
       class T3 < TestCLI
         option :arg2, :boolean => true
       end
@@ -303,11 +303,11 @@ describe Mixlib::CLI do
         option :arg3, :boolean => true
       end
       3.times do |i|
-        T4.options["arg#{i + 1}".to_sym].should be_a(Hash)
+        expect(T4.options["arg#{i + 1}".to_sym]).to be_a(Hash)
       end
     end
 
-    it "should also work with an option that's an array" do
+    it "also works with an option that's an array" do
       class T5 < TestCLI
         option :arg2, :default => []
       end
@@ -315,7 +315,7 @@ describe Mixlib::CLI do
       class T6 < T5
       end
 
-      T6.options[:arg2].should be_a(Hash)
+      expect(T6.options[:arg2]).to be_a(Hash)
     end
 
   end
