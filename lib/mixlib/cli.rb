@@ -311,9 +311,10 @@ module Mixlib
       arguments << opt_setting[:short] if opt_setting.has_key?(:short)
       arguments << opt_setting[:long] if opt_setting.has_key?(:long)
       if opt_setting.has_key?(:description)
-        description = opt_setting[:description]
+        description = opt_setting[:description].dup
         description << " (required)" if opt_setting[:required]
         description << " (included in ['#{opt_setting[:in].join("', '")}'])" if opt_setting[:in]
+        opt_setting[:description] = description
         arguments << description
       end
 
