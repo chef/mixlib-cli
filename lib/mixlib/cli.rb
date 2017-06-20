@@ -41,7 +41,7 @@ module Mixlib
 
     module InheritMethods
       def inherited(receiver)
-        receiver.options = deep_dup(self.options)
+        receiver.options = deep_dup(options)
         receiver.extend(Mixlib::CLI::InheritMethods)
       end
 
