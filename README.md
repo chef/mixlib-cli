@@ -22,7 +22,7 @@ class MyCLI
     :long  => "--log_level LEVEL",
     :description => "Set the log level (debug, info, warn, error, fatal)",
     :required => true,
-    :in => ['debug', 'info', 'warn', 'error', 'fatal'],
+    :in => [:debug, :info, :warn, :error, :fatal],
     :proc => Proc.new { |l| l.to_sym }
 
   option :help,
