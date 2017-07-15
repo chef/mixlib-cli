@@ -1,10 +1,7 @@
-require "bundler"
-require "rubygems"
-require "rubygems/package_task"
+require "bundler/gem_tasks"
 require "rdoc/task"
 require "rspec/core/rake_task"
-
-Bundler::GemHelper.install_tasks
+require "mixlib/cli/version"
 
 task :default => :spec
 
@@ -22,6 +19,9 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include("lib/**/*.rb")
 end
 
+desc "Run tests for Travis CI"
+task ci: [:style, :spec]
+
 begin
   require "chefstyle"
   require "rubocop/rake_task"
@@ -30,4 +30,15 @@ begin
   end
 rescue LoadError
   puts "chefstyle/rubocop is not available.  gem install chefstyle to do style checking."
+end
+
+begin
+  require "github_changelog_generator/task"
+
+  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+    config.issues = false
+    config.future_release = Mixlib::CLI::VERSION
+  end
+rescue LoadError
+  puts "github_changelog_generator is not available. gem install github_changelog_generator to generate changelogs"
 end
