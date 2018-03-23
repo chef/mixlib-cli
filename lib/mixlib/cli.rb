@@ -241,7 +241,7 @@ module Mixlib
           unless opt_value[:in].kind_of?(Array)
             raise(ArgumentError, "Options config key :in must receive an Array")
           end
-          if !opt_value[:in].include?(config[opt_key])
+          if config[opt_key] && !opt_value[:in].include?(config[opt_key])
             reqarg = opt_value[:short] || opt_value[:long]
             puts "#{reqarg}: #{config[opt_key]} is not included in the list ['#{opt_value[:in].join("', '")}'] "
             puts @opt_parser
