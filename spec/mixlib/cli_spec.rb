@@ -57,7 +57,7 @@ describe Mixlib::CLI do
     end
   end
 
-  context "when configured with default single-config-hash behavior" do
+  context "when configured with default single-parsed-options-hash behavior" do
 
     before(:each) do
       @cli = TestCLI.new
@@ -85,10 +85,16 @@ describe Mixlib::CLI do
         })
       end
 
-      it "sets the default config value for any options that include it" do
+      it "sets the default parsed_options value for any options that include it" do
         TestCLI.option(:config_file, short: "-l LOG", default: :debug)
         @cli = TestCLI.new
-        expect(@cli.config[:config_file]).to eql(:debug)
+        expect(@cli.parsed_options[:config_file]).to eql(:debug)
+      end
+
+      it "sets the historical value config" do
+        TestCLI.option(:config_file, short: "-l LOG", default: :debug)
+        @cli = TestCLI.new
+        expect(@cli.parsed_options).to eql(@cli.config)
       end
     end
 
@@ -132,21 +138,21 @@ describe Mixlib::CLI do
     end
 
     describe "parse_options" do
-      it "sets the corresponding config value for non-boolean arguments" do
+      it "sets the corresponding parsed_options value for non-boolean arguments" do
         TestCLI.option(:config_file, short: "-c CONFIG")
         @cli = TestCLI.new
         @cli.parse_options([ "-c", "foo.rb" ])
-        expect(@cli.config[:config_file]).to eql("foo.rb")
+        expect(@cli.parsed_options[:config_file]).to eql("foo.rb")
       end
 
-      it "sets the corresponding config value according to a supplied proc" do
+      it "sets the corresponding parsed_options value according to a supplied proc" do
         TestCLI.option(:number,
           short: "-n NUMBER",
-          proc: Proc.new { |config| config.to_i + 2 }
+          proc: Proc.new { |c| c.to_i + 2 }
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2" ])
-        expect(@cli.config[:number]).to eql(4)
+        expect(@cli.parsed_options[:number]).to eql(4)
       end
 
       it "passes the existing value to two-argument procs" do
@@ -156,24 +162,24 @@ describe Mixlib::CLI do
         )
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2", "-n", "3" ])
-        expect(@cli.config[:number]).to eql(%w{2 3})
+        expect(@cli.parsed_options[:number]).to eql(%w{2 3})
       end
 
-      it "sets the corresponding config value to true for boolean arguments" do
+      it "sets the corresponding parsed_options value to true for boolean arguments" do
         TestCLI.option(:i_am_boolean, short: "-i", boolean: true)
         @cli = TestCLI.new
         @cli.parse_options([ "-i" ])
-        expect(@cli.config[:i_am_boolean]).to be true
+        expect(@cli.parsed_options[:i_am_boolean]).to be true
       end
 
-      it "sets the corresponding config value to false when a boolean is prefixed with --no" do
+      it "sets the corresponding parsed_options value to false when a boolean is prefixed with --no" do
         TestCLI.option(:i_am_boolean, long: "--[no-]bool", boolean: true)
         @cli = TestCLI.new
         @cli.parse_options([ "--no-bool" ])
-        expect(@cli.config[:i_am_boolean]).to be false
+        expect(@cli.parsed_options[:i_am_boolean]).to be false
       end
 
-      it "exits if a config option has :exit set" do
+      it "exits if a parsed_options option has :exit set" do
         TestCLI.option(:i_am_exit, short: "-x", boolean: true, exit: 0)
         @cli = TestCLI.new
         expect(lambda { @cli.parse_options(["-x"]) }).to raise_error(SystemExit)
@@ -221,7 +227,7 @@ describe Mixlib::CLI do
         TestCLI.option(:inclusion, short: "-i val", in: %w{one two}, required: true)
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
-        expect(@cli.config[:inclusion]).to eql("one")
+        expect(@cli.parsed_options[:inclusion]).to eql("one")
       end
 
       it "changes description if :in key is specified" do
@@ -235,21 +241,21 @@ describe Mixlib::CLI do
         TestCLI.option(:require_me, short: "-r", boolean: true, required: true)
         @cli = TestCLI.new
         @cli.parse_options(["-r"])
-        expect(@cli.config[:require_me]).to be true
+        expect(@cli.parsed_options[:require_me]).to be true
       end
 
       it "doesn't exit if a required boolean option is specified and false" do
         TestCLI.option(:require_me, long: "--[no-]req", boolean: true, required: true)
         @cli = TestCLI.new
         @cli.parse_options(["--no-req"])
-        expect(@cli.config[:require_me]).to be false
+        expect(@cli.parsed_options[:require_me]).to be false
       end
 
       it "doesn't exit if a required option is specified and empty" do
         TestCLI.option(:require_me, short: "-r VALUE", required: true)
         @cli = TestCLI.new
         @cli.parse_options(["-r", ""])
-        expect(@cli.config[:require_me]).to eql("")
+        expect(@cli.parsed_options[:require_me]).to eql("")
       end
 
       it "preserves all of the commandline arguments, ARGV" do
@@ -280,14 +286,19 @@ describe Mixlib::CLI do
 
     it "sets default values on the `default` hash" do
       @cli.parse_options([])
-      expect(@cli.default_config[:defaulter]).to eql("this is the default")
-      expect(@cli.config[:defaulter]).to be_nil
+      expect(@cli.default_options[:defaulter]).to eql("this is the default")
+      expect(@cli.parsed_options[:defaulter]).to be_nil
     end
 
-    it "sets parsed values on the `config` hash" do
+    it "sets parsed values on the `parsed_options` hash" do
       @cli.parse_options(%w{-D not-default})
-      expect(@cli.default_config[:defaulter]).to eql("this is the default")
-      expect(@cli.config[:defaulter]).to eql("not-default")
+      expect(@cli.default_options[:defaulter]).to eql("this is the default")
+      expect(@cli.parsed_options[:defaulter]).to eql("not-default")
+    end
+
+    it "sets the historical value default_config" do
+      @cli.parse_options([])
+      expect(@cli.default_options).to eql(@cli.default_config)
     end
 
   end

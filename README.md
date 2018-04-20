@@ -38,8 +38,8 @@ end
 # ARGV = [ '-c', 'foo.rb', '-l', 'debug' ]
 cli = MyCLI.new
 cli.parse_options
-cli.config[:config_file] # 'foo.rb'
-cli.config[:log_level]   # :debug
+cli.parsed_options[:config_file] # 'foo.rb'
+cli.parsed_options[:log_level]   # :debug
 ```
 
 If you are using this in conjunction with Mixlib::Config, you can do something like this (building on the above definition):
@@ -55,7 +55,7 @@ end
 class MyCLI
   def run(argv=ARGV)
     parse_options(argv)
-    MyConfig.merge!(config)
+    MyConfig.merge!(parsed_options)
   end
 end
 
@@ -79,7 +79,7 @@ Available arguments to 'option':
 - `:proc`: If set, the configuration value will be set to the return value of this proc.
 - `:in`: An array containing the list of accepted values
 
-If you need access to the leftover options that aren't captured in the config, you can get at them through +cli_arguments+ (referring to the above definition of MyCLI).
+If you need access to the leftover options that aren't captured in the `parsed_options`, you can get at them through +cli_arguments+ (referring to the above definition of MyCLI).
 
 ```ruby
 # ARGV = [ '-c', 'foo.rb', '-l', 'debug', 'file1', 'file2', 'file3' ]

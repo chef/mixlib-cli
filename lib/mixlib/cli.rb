@@ -35,7 +35,7 @@ module Mixlib
   #
   # === Parsing
   # Command line options are parsed by calling the instance method
-  # #parse_options. After calling this method, the attribute #config will
+  # #parse_options. After calling this method, the attribute #parsed_options will
   # contain a hash of `:option_name => value` pairs.
   module CLI
 
@@ -142,7 +142,7 @@ module Mixlib
 
     # Gives the command line options definition as configured in the DSL. These
     # are used by #parse_options to generate the option parsing code. To get
-    # the values supplied by the user, see #config.
+    # the values supplied by the user, see #parsed_options.
     attr_accessor :options
 
     # A Hash containing the values supplied by command line options.
@@ -150,13 +150,20 @@ module Mixlib
     # The behavior and contents of this Hash vary depending on whether
     # ClassMethods#use_separate_default_options is enabled.
     # ==== use_separate_default_options *disabled*
-    # After initialization, +config+ will contain any default values defined
+    # After initialization, +parsed_options+ will contain any default values defined
     # via the mixlib-config DSL. When #parse_options is called, user-supplied
     # values (from ARGV) will be merged in.
     # ==== use_separate_default_options *enabled*
     # After initialization, this will be an empty hash. When #parse_options is
-    # called, +config+ is populated *only* with user-supplied values.
-    attr_accessor :config
+    # called, +parsed_options+ is populated *only* with user-supplied values.
+    attr_accessor :parsed_options
+
+    # This is the historical method used to access the parsed options. It is
+    # too widely used to deprecate so we will leave it around. But new users
+    # of mixlib-cli are encouraged to use #parsed_options since it is more clear.
+    def config
+      parsed_options
+    end
 
     # If ClassMethods#use_separate_default_options is enabled, this will be a
     # Hash containing key value pairs of `:option_name => default_value`
@@ -164,9 +171,15 @@ module Mixlib
     #
     # If use_separate_default_options is disabled, it will always be an empty
     # hash.
-    attr_accessor :default_config
+    attr_accessor :default_options
 
-    # Any arguments which were not parsed and placed in "config"--the leftovers.
+    # See #config
+    def default_config
+      default_options
+    end
+
+    # Any arguments which were not parsed and placed in #parsed_options -
+    # the leftovers.
     attr_accessor :cli_arguments
 
     # Banner for the option parser. If the option parser is printed, e.g., by
@@ -182,8 +195,8 @@ module Mixlib
     # object<Mixlib::Config>:: Returns an instance of whatever you wanted :)
     def initialize(*args)
       @options = Hash.new
-      @config  = Hash.new
-      @default_config = Hash.new
+      @parsed_options  = Hash.new
+      @default_options = Hash.new
       @opt_parser = nil
 
       # Set the banner
@@ -193,11 +206,11 @@ module Mixlib
       klass_options = self.class.options
       klass_options.keys.inject(@options) { |memo, key| memo[key] = klass_options[key].dup; memo }
 
-      # If use_separate_defaults? is on, default values go in @default_config
+      # If use_separate_defaults? is on, default values go in @default_options
       defaults_container = if self.class.use_separate_defaults?
-                             @default_config
+                             @default_options
                            else
-                             @config
+                             @parsed_options
                            end
 
       # Set the default configuration values for this instance
@@ -231,7 +244,7 @@ module Mixlib
 
       # Deal with any required values
       options.each do |opt_key, opt_value|
-        if opt_value[:required] && !config.key?(opt_key)
+        if opt_value[:required] && !parsed_options.key?(opt_key)
           reqarg = opt_value[:short] || opt_value[:long]
           puts "You must supply #{reqarg}!"
           puts @opt_parser
@@ -239,11 +252,11 @@ module Mixlib
         end
         if opt_value[:in]
           unless opt_value[:in].kind_of?(Array)
-            raise(ArgumentError, "Options config key :in must receive an Array")
+            raise(ArgumentError, "Options configuration key :in must receive an Array")
           end
-          if config[opt_key] && !opt_value[:in].include?(config[opt_key])
+          if parsed_options[opt_key] && !opt_value[:in].include?(parsed_options[opt_key])
             reqarg = opt_value[:short] || opt_value[:long]
-            puts "#{reqarg}: #{config[opt_key]} is not included in the list ['#{opt_value[:in].join("', '")}'] "
+            puts "#{reqarg}: #{parsed_options[opt_key]} is not included in the list ['#{opt_value[:in].join("', '")}'] "
             puts @opt_parser
             exit 2
           end
@@ -281,18 +294,18 @@ module Mixlib
 
           parse_block =
             Proc.new() do |c|
-              config[opt_key] = if opt_val[:proc]
-                                  if opt_val[:proc].arity == 2
-                                    # New hotness to allow for reducer-style procs.
-                                    opt_val[:proc].call(c, config[opt_key])
-                                  else
-                                    # Older single-argument proc.
-                                    opt_val[:proc].call(c)
-                                  end
-                                else
-                                  # No proc.
-                                  c
-                                end
+              parsed_options[opt_key] = if opt_val[:proc]
+                                          if opt_val[:proc].arity == 2
+                                            # New hotness to allow for reducer-style procs.
+                                            opt_val[:proc].call(c, parsed_options[opt_key])
+                                          else
+                                            # Older single-argument proc.
+                                            opt_val[:proc].call(c)
+                                          end
+                                        else
+                                          # No proc.
+                                          c
+                                        end
               puts opts if opt_val[:show_options]
               exit opt_val[:exit] if opt_val[:exit]
             end
