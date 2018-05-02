@@ -3,6 +3,7 @@ require "rubygems"
 require "rubygems/package_task"
 require "rdoc/task"
 require "rspec/core/rake_task"
+require "mixlib/cli/version"
 
 Bundler::GemHelper.install_tasks
 
@@ -13,11 +14,9 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = "spec/**/*_spec.rb"
 end
 
-gem_spec = eval(File.read("mixlib-cli.gemspec"))
-
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
-  rdoc.title = "mixlib-cli #{gem_spec.version}"
+  rdoc.title = "mixlib-cli #{Mixlib::CLI::VERSION}"
   rdoc.rdoc_files.include("README*")
   rdoc.rdoc_files.include("lib/**/*.rb")
 end

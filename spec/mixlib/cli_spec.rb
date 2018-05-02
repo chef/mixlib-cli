@@ -185,27 +185,47 @@ describe Mixlib::CLI do
         expect(lambda { @cli.parse_options([]) }).to raise_error(SystemExit)
       end
 
-      it "exits if option is not included in the list" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
+      it "exits if option is not included in the list and required" do
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :required => true)
         @cli = TestCLI.new
         expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(SystemExit)
       end
 
+      it "exits if option is not included in the list and not required" do
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :required => false)
+        @cli = TestCLI.new
+        expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(SystemExit)
+      end
+
+      it "doesn't exit if option is nil and not required" do
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :required => false)
+        @cli = TestCLI.new
+        expect do
+          expect(@cli.parse_options([])).to eql []
+        end.to_not raise_error
+      end
+
+      it "exit if option is nil and required" do
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :required => true)
+        @cli = TestCLI.new
+        expect(lambda { @cli.parse_options([]) }).to raise_error(SystemExit)
+      end
+
       it "raises ArgumentError if options key :in is not an array" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => "foo")
+        TestCLI.option(:inclusion, :short => "-i val", :in => "foo", :required => true)
         @cli = TestCLI.new
         expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(ArgumentError)
       end
 
       it "doesn't exit if option is included in the list" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two})
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :required => true)
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
         expect(@cli.config[:inclusion]).to eql("one")
       end
 
       it "changes description if :in key is specified" do
-        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :description => "desc")
+        TestCLI.option(:inclusion, :short => "-i val", :in => %w{one two}, :description => "desc", :required => false)
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
         expect(@cli.options[:inclusion][:description]).to eql("desc (included in ['one', 'two'])")
