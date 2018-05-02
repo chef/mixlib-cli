@@ -1,5 +1,14 @@
 # mixlib-cli Changelog
 
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
+<!-- latest_stable_release -->
+
 ## 1.7.0
 
 - Support two-argument procs for reducer style
