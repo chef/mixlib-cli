@@ -1,21 +1,28 @@
+sudo: false
 language: ruby
 cache: bundler
 
-sudo: false
+matrix:
+  include:
+    - 2.2.10
+    - 2.3.7
+    - 2.4.4
+    - 2.5.1
+    - rvm: ruby-head
+  allow_failures:
+    - rvm: ruby-head
 
 branches:
   only:
-    - master
+  - master
+
+bundler_args: --without docs
 
 before_install:
+  - gem install bundler
   - bundle --version
+  - gem update --system
   - gem --version
-rvm:
-  - 2.2.10
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
 
 script:
-  - bundle exec chefstyle
-  - bundle exec rake spec
+  - bundle exec rake
