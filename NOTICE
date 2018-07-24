@@ -4,7 +4,7 @@ Mixin::CLI NOTICE
 Developed at Chef (http://www.chef.io).
 
 
- * Copyright 2009-2016, Chef Software, Inc. <legal@chef.io>
+ * Copyright 2009-2018, Chef Software, Inc. <legal@chef.io>
 
 Mixin::CLI incorporates code from Chef.  The Chef notice file follows:
 

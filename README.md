@@ -90,7 +90,7 @@ cli.cli_arguments # [ 'file1', 'file2', 'file3' ]
 
 ## LICENSE:
 
-- Copyright:: Copyright (c) 2008-2016 Chef Software, Inc.
+- Copyright:: Copyright (c) 2008-2018 Chef Software, Inc.
 - License:: Apache License, Version 2.0
 
 ```text
