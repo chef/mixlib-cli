@@ -5,7 +5,6 @@
 Mixlib::CLI provides a class-based command line option parsing object, like the one used in Chef, Ohai and Relish. To use in your project:
 
 ```ruby
-require 'rubygems'
 require 'mixlib/cli'
 
 class MyCLI
