@@ -1,24 +1,14 @@
-require "bundler"
-require "rubygems"
-require "rubygems/package_task"
-require "rdoc/task"
+require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 require "mixlib/cli/version"
 
-Bundler::GemHelper.install_tasks
+task default: [:style, :unit]
 
-task default: :spec
+Bundler::GemHelper.install_tasks
 
 desc "Run specs"
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = "spec/**/*_spec.rb"
-end
-
-RDoc::Task.new do |rdoc|
-  rdoc.rdoc_dir = "rdoc"
-  rdoc.title = "mixlib-cli #{Mixlib::CLI::VERSION}"
-  rdoc.rdoc_files.include("README*")
-  rdoc.rdoc_files.include("lib/**/*.rb")
 end
 
 begin
@@ -28,5 +18,12 @@ begin
     task.options += ["--display-cop-names", "--no-color"]
   end
 rescue LoadError
-  puts "chefstyle/rubocop is not available.  gem install chefstyle to do style checking."
+  puts "chefstyle/rubocop is not available. bundle install first to make sure all dependencies are installed."
+end
+
+begin
+  require "yard"
+  YARD::Rake::YardocTask.new(:doc)
+rescue LoadError
+  puts "yard is not available. bundle install first to make sure all dependencies are installed."
 end
