@@ -16,10 +16,10 @@ Gem::Specification.new do |s|
 
   # Uncomment this to add a dependency
   #s.add_dependency "mixlib-log"
-  s.add_development_dependency "rake", "~> 11.0"
-  s.add_development_dependency "rspec", "~> 3.0"
   s.add_development_dependency "rdoc"
   s.add_development_dependency "chefstyle"
+  s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rake", "~> 12.0"
 
   s.require_path = "lib"
   s.files = %w{LICENSE README.md Gemfile Rakefile NOTICE} + Dir.glob("*.gemspec") +
