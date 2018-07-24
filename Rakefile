@@ -1,6 +1,5 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
-require "mixlib/cli/version"
 
 task default: [:style, :unit]
 
