@@ -8,6 +8,9 @@ class TestCLI
 end
 
 RSpec.configure do |config|
+  # Use documentation format
+  config.formatter = "doc"
+
   # Use color in STDOUT
   config.color = true
 

@@ -1,7 +1,7 @@
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
-task default: [:style, :unit]
+task default: [:style, :spec]
 
 Bundler::GemHelper.install_tasks
 
