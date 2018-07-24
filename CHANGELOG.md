@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 1.7.1 -->
-## [v1.7.1](https://github.com/chef/mixlib-cli/tree/v1.7.1) (2018-06-26)
+<!-- latest_release 1.7.2 -->
+## [v1.7.2](https://github.com/chef/mixlib-cli/tree/v1.7.2) (2018-07-24)
 
 #### Merged Pull Requests
-- remove hashrockets syntax [#43](https://github.com/chef/mixlib-cli/pull/43) ([lamont-granquist](https://github.com/lamont-granquist))
+- Remove require rubygems [#44](https://github.com/chef/mixlib-cli/pull/44) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.7.0 -->
 ### Changes since 1.7.0 release
 
 #### Merged Pull Requests
+- Remove require rubygems [#44](https://github.com/chef/mixlib-cli/pull/44) ([tas50](https://github.com/tas50)) <!-- 1.7.2 -->
 - remove hashrockets syntax [#43](https://github.com/chef/mixlib-cli/pull/43) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.7.1 -->
 <!-- release_rollup -->
 
