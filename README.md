@@ -68,10 +68,10 @@ MyConfig[:log_level] # :debug
 Available arguments to 'option':
 
 - `:short`: The short option, just like from optparse. Example: "-l LEVEL"
-- `:long`: The long option, just like from optparse.  Example: "--level LEVEL"
+- `:long`: The long option, just like from optparse. Example: "--level LEVEL"
 - `:description`: The description for this item, just like from optparse.
 - `:default`: A default value for this option
-- `:required`: Prints a message informing the user of the missing requirement, and exits.  Default is false.
+- `:required`: Prints a message informing the user of the missing requirement, and exits. Default is false.
 - `:on`: Set to :tail to appear at the end, or `:head`: to appear at the top.
 - `:boolean:`: If this option takes no arguments, set this to true.
 - `:show_options`: If you want the option list printed when this option is called, set this to true.
@@ -88,7 +88,11 @@ cli.parse_options
 cli.cli_arguments # [ 'file1', 'file2', 'file3' ]
 ```
 
-## LICENSE:
+## Contributing
+
+For information on contributing to this gem please see our [Contributing Documentation](https://github.com/chef/chef/blob/master/CONTRIBUTING.md)
+
+## License & Copyright
 
 - Copyright:: Copyright (c) 2008-2018 Chef Software, Inc.
 - License:: Apache License, Version 2.0
