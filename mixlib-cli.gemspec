@@ -4,8 +4,6 @@ require "mixlib/cli/version"
 Gem::Specification.new do |s|
   s.name = "mixlib-cli"
   s.version = Mixlib::CLI::VERSION
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
   s.extra_rdoc_files = ["README.md", "LICENSE", "NOTICE"]
   s.summary = "A simple mixin for CLI interfaces, including option parsing"
   s.description = s.summary
