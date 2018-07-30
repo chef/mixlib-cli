@@ -88,9 +88,17 @@ cli.parse_options
 cli.cli_arguments # [ 'file1', 'file2', 'file3' ]
 ```
 
+## Documentation
+
+All documentation is written using YARD. You can generate a by running:
+
+```
+rake yard
+```
+
 ## Contributing
 
-For information on contributing to this gem please see our [Contributing Documentation](https://github.com/chef/chef/blob/master/CONTRIBUTING.md)
+For information on contributing to this project please see our [Contributing Documentation](https://github.com/chef/chef/blob/master/CONTRIBUTING.md)
 
 ## License & Copyright
 

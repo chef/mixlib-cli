@@ -12,12 +12,6 @@ Gem::Specification.new do |s|
   s.homepage = "https://www.chef.io"
   s.license = "Apache-2.0"
 
-  # Uncomment this to add a dependency
-  #s.add_dependency "mixlib-log"
-  s.add_development_dependency "chefstyle"
-  s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "rake", "~> 12.0"
-
   s.require_path = "lib"
   s.files = %w{LICENSE README.md Gemfile Rakefile NOTICE} + Dir.glob("*.gemspec") +
     Dir.glob("{lib,spec}/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
