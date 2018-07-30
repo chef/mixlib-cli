@@ -16,13 +16,6 @@ branches:
   only:
   - master
 
-bundler_args: --without docs
+bundler_args: --without docs development
 
-before_install:
-  - gem install bundler
-  - bundle --version
-  - gem update --system
-  - gem --version
-
-script:
-  - bundle exec rake
+script: bundle exec rake
