@@ -19,6 +19,8 @@ github:
   minor_bump_labels:
     - "Expeditor: Bump Minor Version"
 
+changelog:
+  rollup_header: Changes not yet released to rubygems.org
 
 # These actions are taken, in order they are specified, anytime a Pull Request is merged.
 merge_actions:
@@ -39,4 +41,3 @@ promote:
   action:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
-
