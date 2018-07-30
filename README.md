@@ -93,7 +93,7 @@ cli.cli_arguments # [ 'file1', 'file2', 'file3' ]
 All documentation is written using YARD. You can generate a by running:
 
 ```
-rake yard
+rake docs
 ```
 
 ## Contributing
