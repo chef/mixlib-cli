@@ -210,7 +210,7 @@ module Mixlib
         config_opts[:exit] ||= nil
         config_opts[:in] ||= nil
 
-        if config_opts.has_key?(:default)
+        if config_opts.key?(:default)
           defaults_container[config_key] = config_opts[:default]
         end
       end
@@ -231,7 +231,7 @@ module Mixlib
 
       # Deal with any required values
       options.each do |opt_key, opt_value|
-        if opt_value[:required] && !config.has_key?(opt_key)
+        if opt_value[:required] && !config.key?(opt_key)
           reqarg = opt_value[:short] || opt_value[:long]
           puts "You must supply #{reqarg}!"
           puts @opt_parser
@@ -308,9 +308,9 @@ module Mixlib
     def build_option_arguments(opt_setting)
       arguments = Array.new
 
-      arguments << opt_setting[:short] if opt_setting.has_key?(:short)
-      arguments << opt_setting[:long] if opt_setting.has_key?(:long)
-      if opt_setting.has_key?(:description)
+      arguments << opt_setting[:short] if opt_setting.key?(:short)
+      arguments << opt_setting[:long] if opt_setting.key?(:long)
+      if opt_setting.key?(:description)
         description = opt_setting[:description].dup
         description << " (required)" if opt_setting[:required]
         description << " (included in ['#{opt_setting[:in].join("', '")}'])" if opt_setting[:in]
