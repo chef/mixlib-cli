@@ -3,10 +3,10 @@ _yardoc
 .config
 .DS_Store
 .idea
-.rvmrc
 .rake_tasks~
 .rspec
 .ruby-version
+.rvmrc
 .yardoc
 .yardopts
 *.gem
