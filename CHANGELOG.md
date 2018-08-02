@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 1.7.4 -->
-## [v1.7.4](https://github.com/chef/mixlib-cli/tree/v1.7.4) (2018-07-31)
+<!-- latest_release 1.7.5 -->
+## [v1.7.5](https://github.com/chef/mixlib-cli/tree/v1.7.5) (2018-08-02)
 
 #### Merged Pull Requests
-- More testing / release boilerplate [#46](https://github.com/chef/mixlib-cli/pull/46) ([tas50](https://github.com/tas50))
+- Update codeowners and add github PR template [#47](https://github.com/chef/mixlib-cli/pull/47) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.7.0 -->
 ### Changes since 1.7.0 release
 
 #### Merged Pull Requests
+- Update codeowners and add github PR template [#47](https://github.com/chef/mixlib-cli/pull/47) ([tas50](https://github.com/tas50)) <!-- 1.7.5 -->
 - More testing / release boilerplate [#46](https://github.com/chef/mixlib-cli/pull/46) ([tas50](https://github.com/tas50)) <!-- 1.7.4 -->
 - Update testing and contributing boilerplate [#45](https://github.com/chef/mixlib-cli/pull/45) ([tas50](https://github.com/tas50)) <!-- 1.7.3 -->
 - Remove require rubygems [#44](https://github.com/chef/mixlib-cli/pull/44) ([tas50](https://github.com/tas50)) <!-- 1.7.2 -->
