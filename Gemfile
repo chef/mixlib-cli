@@ -10,7 +10,7 @@ end
 
 group :test do
   gem "chefstyle", git: "https://github.com/chef/chefstyle.git", branch: "master"
-  gem "rspec", "~> 3.0"
+  gem "rspec", "~> 3.0", "< 3.8"
   gem "rake"
 end
 
