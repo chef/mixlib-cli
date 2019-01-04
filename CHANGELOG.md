@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 1.7.7 -->
-## [v1.7.7](https://github.com/chef/mixlib-cli/tree/v1.7.7) (2019-01-04)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- update travis, drop ruby &lt; 2.5, major version bump [#52](https://github.com/chef/mixlib-cli/pull/52) ([lamont-granquist](https://github.com/lamont-granquist))
+- actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.7.0 -->
 ### Changes since 1.7.0 release
 
 #### Merged Pull Requests
+- actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 2.0.0 -->
 - update travis, drop ruby &lt; 2.5, major version bump [#52](https://github.com/chef/mixlib-cli/pull/52) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.7.7 -->
 - Lint the example code [#49](https://github.com/chef/mixlib-cli/pull/49) ([tas50](https://github.com/tas50)) <!-- 1.7.6 -->
 - Update codeowners and add github PR template [#47](https://github.com/chef/mixlib-cli/pull/47) ([tas50](https://github.com/tas50)) <!-- 1.7.5 -->
