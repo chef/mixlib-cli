@@ -1,14 +1,18 @@
 # mixlib-cli Changelog
 
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 2.0.1 -->
+## [v2.0.1](https://github.com/chef/mixlib-cli/tree/v2.0.1) (2019-01-04)
 
 #### Merged Pull Requests
+- Don&#39;t ship the test files in the gem artifact [#51](https://github.com/chef/mixlib-cli/pull/51) ([tas50](https://github.com/tas50))
 - actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.0 -->
 ### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Don&#39;t ship the test files in the gem artifact [#51](https://github.com/chef/mixlib-cli/pull/51) ([tas50](https://github.com/tas50)) <!-- 2.0.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
