@@ -7,22 +7,25 @@
 - actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
-<!-- release_rollup since=1.7.0 -->
-### Changes since 1.7.0 release
-
-#### Merged Pull Requests
-- actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 2.0.0 -->
-- update travis, drop ruby &lt; 2.5, major version bump [#52](https://github.com/chef/mixlib-cli/pull/52) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.7.7 -->
-- Lint the example code [#49](https://github.com/chef/mixlib-cli/pull/49) ([tas50](https://github.com/tas50)) <!-- 1.7.6 -->
-- Update codeowners and add github PR template [#47](https://github.com/chef/mixlib-cli/pull/47) ([tas50](https://github.com/tas50)) <!-- 1.7.5 -->
-- More testing / release boilerplate [#46](https://github.com/chef/mixlib-cli/pull/46) ([tas50](https://github.com/tas50)) <!-- 1.7.4 -->
-- Update testing and contributing boilerplate [#45](https://github.com/chef/mixlib-cli/pull/45) ([tas50](https://github.com/tas50)) <!-- 1.7.3 -->
-- Remove require rubygems [#44](https://github.com/chef/mixlib-cli/pull/44) ([tas50](https://github.com/tas50)) <!-- 1.7.2 -->
-- remove hashrockets syntax [#43](https://github.com/chef/mixlib-cli/pull/43) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.7.1 -->
+<!-- release_rollup since=2.0.0 -->
+### Changes not yet released to rubygems.org
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.0](https://github.com/chef/mixlib-cli/tree/v2.0.0) (2019-01-04)
+
+#### Merged Pull Requests
+- remove hashrockets syntax [#43](https://github.com/chef/mixlib-cli/pull/43) ([lamont-granquist](https://github.com/lamont-granquist))
+- Remove require rubygems [#44](https://github.com/chef/mixlib-cli/pull/44) ([tas50](https://github.com/tas50))
+- Update testing and contributing boilerplate [#45](https://github.com/chef/mixlib-cli/pull/45) ([tas50](https://github.com/tas50))
+- More testing / release boilerplate [#46](https://github.com/chef/mixlib-cli/pull/46) ([tas50](https://github.com/tas50))
+- Update codeowners and add github PR template [#47](https://github.com/chef/mixlib-cli/pull/47) ([tas50](https://github.com/tas50))
+- Lint the example code [#49](https://github.com/chef/mixlib-cli/pull/49) ([tas50](https://github.com/tas50))
+- update travis, drop ruby &lt; 2.5, major version bump [#52](https://github.com/chef/mixlib-cli/pull/52) ([lamont-granquist](https://github.com/lamont-granquist))
+- actually do the major version bump [#53](https://github.com/chef/mixlib-cli/pull/53) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_stable_release -->
+
+
 
 ## 1.7.0
 
