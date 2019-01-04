@@ -1,9 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release -->
+<!-- latest_release 2.0.2 -->
+## [v2.0.2](https://github.com/chef/mixlib-cli/tree/v2.0.2) (2019-01-04)
+
+#### Merged Pull Requests
+- fix global state pollution issues across examples [#54](https://github.com/chef/mixlib-cli/pull/54) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- fix global state pollution issues across examples [#54](https://github.com/chef/mixlib-cli/pull/54) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 2.0.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
