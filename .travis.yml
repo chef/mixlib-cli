@@ -1,13 +1,16 @@
-sudo: false
 language: ruby
 cache: bundler
+dist: xenial
 
+before_install:
+  - gem install bundler
+  - bundle --version
+  - gem update --system
+  - gem --version
 matrix:
   include:
-    - rvm: 2.2.10
-    - rvm: 2.3.7
-    - rvm: 2.4.4
-    - rvm: 2.5.1
+    - rvm: 2.5.3
+    - rvm: 2.6.0
     - rvm: ruby-head
   allow_failures:
     - rvm: ruby-head

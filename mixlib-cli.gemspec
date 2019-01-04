@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.email = "info@chef.io"
   s.homepage = "https://www.chef.io"
   s.license = "Apache-2.0"
+  s.required_ruby_version = ">= 2.5"
 
   s.require_path = "lib"
   s.files = %w{LICENSE README.md Gemfile Rakefile NOTICE} + Dir.glob("*.gemspec") +
