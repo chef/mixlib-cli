@@ -1,5 +1,5 @@
 module Mixlib
   module CLI
-    VERSION = "2.0.0".freeze
+    VERSION = "1.7.7".freeze
   end
 end
