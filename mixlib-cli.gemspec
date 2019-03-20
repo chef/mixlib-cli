@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = "info@chef.io"
   s.homepage = "https://www.github.com/mixlib-cli"
   s.license = "Apache-2.0"
-  s.required_ruby_version = ">= 2.5"
+  s.required_ruby_version = ">= 2.4"
 
   s.require_path = "lib"
   s.files = %w{LICENSE NOTICE} + Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
