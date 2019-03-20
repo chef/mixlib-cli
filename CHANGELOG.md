@@ -1,26 +1,23 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.0.3 -->
-## [v2.0.3](https://github.com/chef/mixlib-cli/tree/v2.0.3) (2019-03-20)
-
-#### Merged Pull Requests
-- Add back support for Ruby 2.4 [#56](https://github.com/chef/mixlib-cli/pull/56) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add back support for Ruby 2.4 [#56](https://github.com/chef/mixlib-cli/pull/56) ([tas50](https://github.com/tas50)) <!-- 2.0.3 -->
-- fix global state pollution issues across examples [#54](https://github.com/chef/mixlib-cli/pull/54) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 2.0.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.3](https://github.com/chef/mixlib-cli/tree/v2.0.3) (2019-03-20)
+
+#### Merged Pull Requests
+- fix global state pollution issues across examples [#54](https://github.com/chef/mixlib-cli/pull/54) ([lamont-granquist](https://github.com/lamont-granquist))
+- Add back support for Ruby 2.4 [#56](https://github.com/chef/mixlib-cli/pull/56) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v2.0.1](https://github.com/chef/mixlib-cli/tree/v2.0.1) (2019-01-04)
 
 #### Merged Pull Requests
 - Don&#39;t ship the test files in the gem artifact [#51](https://github.com/chef/mixlib-cli/pull/51) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v2.0.0](https://github.com/chef/mixlib-cli/tree/v2.0.0) (2019-01-04)
 
