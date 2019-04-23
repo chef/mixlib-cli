@@ -3,10 +3,11 @@ cache: bundler
 dist: xenial
 
 before_install:
-  - gem install bundler
+  - gem install bundler || true
   - bundle --version
   - gem update --system
   - gem --version
+
 matrix:
   include:
     - rvm: 2.4.5
