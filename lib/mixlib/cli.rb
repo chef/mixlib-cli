@@ -1,6 +1,6 @@
 #
 # Author:: Adam Jacob (<adam@chef.io>)
-# Copyright:: Copyright (c) 2008-2016 Chef Software, Inc.
+# Copyright:: Copyright (c) 2008-2019 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -243,7 +243,7 @@ module Mixlib
           end
           if config[opt_key] && !opt_value[:in].include?(config[opt_key])
             reqarg = opt_value[:short] || opt_value[:long]
-            puts "#{reqarg}: #{config[opt_key]} is not included in the list ['#{opt_value[:in].join("', '")}'] "
+            puts "#{reqarg}: #{config[opt_key]} is not one of the allowed values: #{friendly_opt_list(opt_value[:in])}"
             puts @opt_parser
             exit 2
           end
@@ -313,12 +313,22 @@ module Mixlib
       if opt_setting.key?(:description)
         description = opt_setting[:description].dup
         description << " (required)" if opt_setting[:required]
-        description << " (valid options are: ['#{opt_setting[:in].join("', '")}'])" if opt_setting[:in]
+        description << " (valid options: #{friendly_opt_list(opt_setting[:in])})" if opt_setting[:in]
         opt_setting[:description] = description
         arguments << description
       end
 
       arguments
+    end
+
+    # @private
+    # @param opt_arry [Array]
+    #
+    # @return [String] a friendly quoted list of items complete with "and"
+    def friendly_opt_list(opt_array)
+      opts = opt_array.map { |x| "'#{x}'" }
+      return opts.join(" and ") if opts.size < 3
+      opts[0..-2].join(", ") + " and " + opts[-1]
     end
 
     def self.included(receiver)

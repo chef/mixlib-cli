@@ -228,7 +228,13 @@ describe Mixlib::CLI do
         TestCLI.option(:inclusion, short: "-i val", in: %w{one two}, description: "desc", required: false)
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
-        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options are: ['one', 'two'])")
+        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options: 'one' and 'two')")
+      end
+
+      it "Raises SystemExit when the provided value is not a member of the :in array" do
+        TestCLI.option(:inclusion, short: "-i val", in: %w{one two}, description: "desc", required: false)
+        @cli = TestCLI.new
+        expect(lambda { @cli.parse_options(["-i", "three"]) }).to raise_error(SystemExit)
       end
 
       it "doesn't exit if a required option is specified" do
