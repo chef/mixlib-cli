@@ -224,11 +224,25 @@ describe Mixlib::CLI do
         expect(@cli.config[:inclusion]).to eql("one")
       end
 
-      it "changes description if :in key is specified" do
+      it "changes description if :in key is specified with a single value" do
+        TestCLI.option(:inclusion, short: "-i val", in: %w{one}, description: "desc", required: false)
+        @cli = TestCLI.new
+        @cli.parse_options(["-i", "one"])
+        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options: 'one')")
+      end
+
+      it "changes description if :in key is specified with 2 values" do
         TestCLI.option(:inclusion, short: "-i val", in: %w{one two}, description: "desc", required: false)
         @cli = TestCLI.new
         @cli.parse_options(["-i", "one"])
-        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options are: ['one', 'two'])")
+        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options: 'one' or 'two')")
+      end
+
+      it "changes description if :in key is specified with 3 values" do
+        TestCLI.option(:inclusion, short: "-i val", in: %w{one two three}, description: "desc", required: false)
+        @cli = TestCLI.new
+        @cli.parse_options(["-i", "one"])
+        expect(@cli.options[:inclusion][:description]).to eql("desc (valid options: 'one', 'two', or 'three')")
       end
 
       it "doesn't exit if a required option is specified" do
