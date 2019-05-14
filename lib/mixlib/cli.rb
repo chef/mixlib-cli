@@ -324,11 +324,11 @@ module Mixlib
     # @private
     # @param opt_arry [Array]
     #
-    # @return [String] a friendly quoted list of items complete with "and"
+    # @return [String] a friendly quoted list of items complete with "or"
     def friendly_opt_list(opt_array)
       opts = opt_array.map { |x| "'#{x}'" }
-      return opts.join(" and ") if opts.size < 3
-      opts[0..-2].join(", ") + " and " + opts[-1]
+      return opts.join(" or ") if opts.size < 3
+      opts[0..-2].join(", ") + ", or " + opts[-1]
     end
 
     def self.included(receiver)
