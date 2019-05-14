@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.0.4 -->
-## [v2.0.4](https://github.com/chef/mixlib-cli/tree/v2.0.4) (2019-04-23)
+<!-- latest_release 2.0.5 -->
+## [v2.0.5](https://github.com/chef/mixlib-cli/tree/v2.0.5) (2019-05-14)
 
 #### Merged Pull Requests
-- Add additional github templates and update codeowners [#58](https://github.com/chef/mixlib-cli/pull/58) ([tas50](https://github.com/tas50))
+- Improve the --help text output of &#39;in:&#39; [#59](https://github.com/chef/mixlib-cli/pull/59) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Improve the --help text output of &#39;in:&#39; [#59](https://github.com/chef/mixlib-cli/pull/59) ([btm](https://github.com/btm)) <!-- 2.0.5 -->
 - Add additional github templates and update codeowners [#58](https://github.com/chef/mixlib-cli/pull/58) ([tas50](https://github.com/tas50)) <!-- 2.0.4 -->
 <!-- release_rollup -->
 
