@@ -1,9 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release -->
+<!-- latest_release 2.0.7 -->
+## [2.0.7](https://github.com/chef/mixlib-cli/tree/2.0.7) (2019-06-01)
+
+#### Merged Pull Requests
+- Setup BuildKite for PR testing [#61](https://github.com/chef/mixlib-cli/pull/61) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.6 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Setup BuildKite for PR testing [#61](https://github.com/chef/mixlib-cli/pull/61) ([tas50](https://github.com/tas50)) <!-- 2.0.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
