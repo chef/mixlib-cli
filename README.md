@@ -1,6 +1,14 @@
 # Mixlib::CLI
 
-[![Build Status Master](https://travis-ci.org/chef/mixlib-cli.svg?branch=master)](https://travis-ci.org/chef/mixlib-cli) [![Gem Version](https://badge.fury.io/rb/mixlib-cli.svg)](https://badge.fury.io/rb/mixlib-cli)
+ [![Gem Version](https://badge.fury.io/rb/mixlib-cli.svg)](https://badge.fury.io/rb/mixlib-cli)
+
+**Umbrella Project**: [Chef Foundation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
+
+**Project State**: [Active](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#active)
+
+**Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)**: 14 days
+
+**Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)**: 14 days
 
 Mixlib::CLI provides a class-based command line option parsing object, like the one used in Chef, Ohai and Relish. To use in your project:
 
