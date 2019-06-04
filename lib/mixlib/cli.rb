@@ -17,7 +17,7 @@
 #
 
 require "optparse"
-
+require "mixlib/cli/formatter"
 module Mixlib
 
   # == Mixlib::CLI
@@ -30,8 +30,9 @@ module Mixlib
   # === DSL
   # When included, Mixlib::CLI also extends the including class with its
   # ClassMethods, which define the DSL. The primary methods of the DSL are
-  # ClassMethods#option, which defines a command line option, and
-  # ClassMethods#banner, which defines the "usage" banner.
+  # ClassMethods#option, which defines a command line option;
+  # ClassMethods#banner, which defines the "usage" banner;
+  # and ClassMethods#deprecated_option, which defines a deprecated command-line option.
   #
   # === Parsing
   # Command line options are parsed by calling the instance method
@@ -93,12 +94,86 @@ module Mixlib
       # === Parameters
       # name<Symbol>:: The name of the option to add
       # args<Hash>:: A hash of arguments for the option, specifying how it should be parsed.
-      # === Returns
-      # true:: Always returns true.
+      #   Supported arguments:
+      #     :short   - The short option, just like from optparse. Example: "-l LEVEL"
+      #     :long    - The long option, just like from optparse. Example: "--level LEVEL"
+      #     :description - The description for this item, just like from optparse.
+      #     :default - A default value for this option.  Default values will be populated
+      #     on parse into `config` or `default_default`, depending `use_separate_defaults`
+      #     :boolean - indicates the flag is a boolean. You can use this if the flag takes no arguments
+      #                The config value will be set to 'true' if the flag is provided on the CLI and this
+      #                argument is set to true. The config value will be set to false only
+      #                if it has a default value of false
+      #     :required - When set, the option is required.  If the command is run without this option,
+      #                it will print a message informing the user of the missing requirement, and exit. Default is false.
+      #     :proc     - Proc that will be invoked if the human has specified this option.
+      #                 Two forms are supported:
+      #                 Proc/1 - provided value is passed in.
+      #                 Proc/2 - first argument is provided value. Second is the cli flag option hash.
+      #                 Both versions return the value to be assigned to the option.
+      #     :show_options - this option is designated as one that shows all supported options/help when invoked.
+      #     :exit     - exit your program with the exit code when this option is given. Example: 0
+      #     :in       - array containing a list of valid values. The value provided at run-time for the option is
+      #                 validated against this. If it is not in the list, it will print a message and exit.
+      #     :on :head OR :tail - force this option to display at the beginning or end of the
+      #                          option list, respectively
+      # =
+      # @return <Hash> :: the config hash for the created option
+      # i
       def option(name, args)
         @options ||= {}
         raise(ArgumentError, "Option name must be a symbol") unless name.kind_of?(Symbol)
         @options[name.to_sym] = args
+      end
+
+      # Declare a deprecated option
+      #
+      # Add a deprecated command line option.
+      #
+      # name<Symbol> :: The name of the deprecated option
+      # replacement<Symbol> :: The name of the option that replaces this option.
+      # long<String> :: The original long flag name, or flag name with argument, eg "--user USER"
+      # short<String>  :: The original short-form flag name, eg "-u USER"
+      # boolean<String> :: true if this is a boolean flag, eg "--[no-]option".
+      # value_mapper<Proc/1> :: a block that accepts the original value from the deprecated option,
+      #                   and converts it to a value suitable for the new option.
+      #                   If not provided, the value provided to the deprecated option will be
+      #                   assigned directly to the converted option.
+      # keep<Boolean> :: Defaults to true, this ensure sthat `options[:deprecated_flag]` is
+      #                  populated when the deprecated flag is used. If set to false,
+      #                  only the value in `replacement` will be set.  Results undefined
+      #                  if no replacement is provided. You can use this to enforce the transition
+      #                  to non-deprecated keys in your code.
+      #
+      # === Returns
+      # <Hash> :: The config hash for the created option.
+      def deprecated_option(name,
+                            replacement: nil,
+                            long: nil,
+                            short: nil,
+                            boolean: false,
+                            value_mapper: nil,
+                            keep: true)
+
+        description = if replacement
+                        replacement_cfg = options[replacement]
+                        display_name = CLI::Formatter.combined_option_display_name(replacement_cfg[:short], replacement_cfg[:long])
+                        "This flag is deprecated. Use #{display_name} instead."
+                      else
+                        "This flag is deprecated and will be removed in a future release."
+                      end
+        value_mapper ||= Proc.new { |v| v }
+
+        option(name,
+               long: long,
+               short: short,
+               boolean: boolean,
+               description: description,
+               on: :tail,
+               deprecated: true,
+               keep: keep,
+               replacement: replacement,
+               value_mapper: value_mapper)
       end
 
       # Get the hash of current options.
@@ -144,6 +219,13 @@ module Mixlib
     # are used by #parse_options to generate the option parsing code. To get
     # the values supplied by the user, see #config.
     attr_accessor :options
+
+    # Warn if a duplicate item has been added to the options list.
+    # This is intended to notify developers when they're using
+    # mixlib-cli incorrectly - either by specifying an option more than once,
+    # or more commonly from re-specifying options that have been inhereted from a
+    # shared base class.
+    attr_accessor :warn_on_duplicates
 
     # A Hash containing the values supplied by command line options.
     #
@@ -209,7 +291,6 @@ module Mixlib
         config_opts[:show_options] ||= false
         config_opts[:exit] ||= nil
         config_opts[:in] ||= nil
-
         if config_opts.key?(:default)
           defaults_container[config_key] = config_opts[:default]
         end
@@ -225,25 +306,30 @@ module Mixlib
     #
     # === Returns
     # argv<Array>:: Returns any un-parsed elements.
-    def parse_options(argv = ARGV)
+    def parse_options(argv = ARGV, show_deprecations: true)
       argv = argv.dup
       opt_parser.parse!(argv)
+      # Do this before our custom validations, so that custom
+      # validations apply to any converted deprecation values;
+      # but after parse! so that everything is populated.
+      handle_deprecated_options(show_deprecations)
 
       # Deal with any required values
-      options.each do |opt_key, opt_value|
-        if opt_value[:required] && !config.key?(opt_key)
-          reqarg = opt_value[:short] || opt_value[:long]
+      options.each do |opt_key, opt_config|
+        if opt_config[:required] && !config.key?(opt_key)
+          reqarg = opt_config[:short] || opt_config[:long]
           puts "You must supply #{reqarg}!"
           puts @opt_parser
           exit 2
         end
-        if opt_value[:in]
-          unless opt_value[:in].kind_of?(Array)
+        if opt_config[:in]
+          unless opt_config[:in].kind_of?(Array)
             raise(ArgumentError, "Options config key :in must receive an Array")
           end
-          if config[opt_key] && !opt_value[:in].include?(config[opt_key])
-            reqarg = opt_value[:short] || opt_value[:long]
-            puts "#{reqarg}: #{config[opt_key]} is not one of the allowed values: #{friendly_opt_list(opt_value[:in])}"
+          if config[opt_key] && !opt_config[:in].include?(config[opt_key])
+            reqarg = Formatter.combined_option_display_name(opt_config[:short], opt_config[:long])
+            puts "#{reqarg}: #{config[opt_key]} is not one of the allowed values: #{Formatter.friendly_opt_list(opt_config[:in])}"
+            # TODO - get rid of this. nobody wants to be spammed with a  ton of information, particularly since we just told them the exact problem and how to fix it.
             puts @opt_parser
             exit 2
           end
@@ -267,7 +353,6 @@ module Mixlib
         # Create new options
         options.sort { |a, b| a[0].to_s <=> b[0].to_s }.each do |opt_key, opt_val|
           opt_args = build_option_arguments(opt_val)
-
           opt_method = case opt_val[:on]
                        when :on
                          :on
@@ -305,15 +390,48 @@ module Mixlib
       end
     end
 
+    # Iterates through options declared as deprecated,
+    # maps values to their replacement options,
+    # and prints deprecation warnings.
+    #
+    # @return NilClass
+    def handle_deprecated_options(show_deprecations)
+      config.keys.each do |opt_key|
+        opt_cfg = options[opt_key]
+        # Deprecated entries do not have defaults so no matter what
+        # separate_default_options are set, if we see a 'config'
+        # entry that contains a deprecated indicator, then the option was
+        # explicitly provided by the caller.
+        next unless opt_cfg[:deprecated]
+        replacement_key = opt_cfg[:replacement]
+        if replacement_key
+          # This is the value passed into the deprecated flag. We'll use
+          # the declared value mapper (defaults to return the same value if caller hasn't
+          # provided a mapper).
+          deprecated_val = config[opt_key]
+          config[replacement_key] = opt_cfg[:value_mapper].call(deprecated_val)
+          config.delete(opt_key) unless opt_cfg[:keep]
+        end
+
+        # Warn about the deprecation.
+        if show_deprecations
+          # Description is also the deprecation message.
+          display_name = CLI::Formatter.combined_option_display_name(opt_cfg[:short], opt_cfg[:long])
+          puts "#{display_name}: #{opt_cfg[:description]}"
+        end
+      end
+      nil
+    end
+
     def build_option_arguments(opt_setting)
       arguments = Array.new
 
-      arguments << opt_setting[:short] if opt_setting.key?(:short)
-      arguments << opt_setting[:long] if opt_setting.key?(:long)
+      arguments << opt_setting[:short] unless opt_setting[:short].nil?
+      arguments << opt_setting[:long] unless opt_setting[:long].nil?
       if opt_setting.key?(:description)
         description = opt_setting[:description].dup
         description << " (required)" if opt_setting[:required]
-        description << " (valid options: #{friendly_opt_list(opt_setting[:in])})" if opt_setting[:in]
+        description << " (valid options: #{Formatter.friendly_opt_list(opt_setting[:in])})" if opt_setting[:in]
         opt_setting[:description] = description
         arguments << description
       end
@@ -321,20 +439,9 @@ module Mixlib
       arguments
     end
 
-    # @private
-    # @param opt_arry [Array]
-    #
-    # @return [String] a friendly quoted list of items complete with "or"
-    def friendly_opt_list(opt_array)
-      opts = opt_array.map { |x| "'#{x}'" }
-      return opts.join(" or ") if opts.size < 3
-      opts[0..-2].join(", ") + ", or " + opts[-1]
-    end
-
     def self.included(receiver)
       receiver.extend(Mixlib::CLI::ClassMethods)
       receiver.extend(Mixlib::CLI::InheritMethods)
     end
-
   end
 end
