@@ -31,10 +31,29 @@ describe Mixlib::CLI do
       end
     end
 
+    describe "deprecated_option" do
+      it "makes a deprecated option when you declare one" do
+        TestCLI.deprecated_option(:option_d, short: "-d")
+        expect(TestCLI.options[:option_d]).to include(deprecated: true)
+      end
+    end
+
     describe "options" do
       it "returns the current options hash" do
         TestCLI.option(:config_file, short: "-c CONFIG")
         expect(TestCLI.options).to eql({ config_file: { short: "-c CONFIG" } })
+      end
+      it "includes deprecated options and their generated descriptions" do
+        TestCLI.option(:config_file, short: "-c CONFIG")
+        TestCLI.deprecated_option(:blah, short: "-b BLAH")
+        TestCLI.deprecated_option(:blah2, long: "--blah2 BLAH", replacement: :config_file)
+        opts = TestCLI.options
+        expect(opts[:config_file][:short]).to eql("-c CONFIG")
+        expect(opts[:config_file].key?(:deprecated)).to eql(false)
+        expect(opts[:blah][:description]).to eql("This flag is deprecated and will be removed in a future release.")
+        expect(opts[:blah][:deprecated]).to eql(true)
+        expect(opts[:blah2][:description]).to eql("This flag is deprecated. Use -c instead.")
+        expect(opts[:blah2][:deprecated]).to eql(true)
       end
     end
 
@@ -68,12 +87,12 @@ describe Mixlib::CLI do
         expect(@cli.banner).to eql(TestCLI.banner)
       end
 
-      it "sets the options to the class defined options, plus defaults" do
-        TestCLI.option(:config_file, short: "-l LOG")
+      it "sets the options to the class defined options and deprecated options, with defaults" do
+        TestCLI.option(:config_file, short: "-l FILE")
+        TestCLI.deprecated_option(:option_file, short: "-o FILE", replacement: :config_file)
         cli = TestCLI.new
-        expect(cli.options).to eql({
-          config_file: {
-            short: "-l LOG",
+        expect(cli.options[:config_file]).to eql({
+            short: "-l FILE",
             on: :on,
             boolean: false,
             required: false,
@@ -81,8 +100,24 @@ describe Mixlib::CLI do
             show_options: false,
             exit: nil,
             in: nil,
-          },
         })
+
+        expect(cli.options[:option_file]).to include(
+            boolean: false,
+            deprecated: true,
+            description: "This flag is deprecated. Use -l instead.",
+            exit: nil,
+            in: nil,
+            long: nil,
+            keep: true,
+            proc: nil,
+            replacement: :config_file,
+            required: false,
+            short: "-o FILE",
+            on: :tail,
+            show_options: false
+        )
+        expect(cli.options[:option_file][:value_mapper].class).to eql(Proc)
       end
 
       it "sets the default config value for any options that include it" do
@@ -281,6 +316,93 @@ describe Mixlib::CLI do
         @cli = TestCLI.new
         expect(@cli.parse_options([ "easy", "-p", "opscode", "hard" ])).to eql(%w{easy hard})
         expect(@cli.cli_arguments).to eql(%w{easy hard})
+      end
+
+      describe "with non-deprecated and deprecated options" do
+        let(:cli) { TestCLI.new }
+        before do
+          TestCLI.option(:option_a, long: "--[no-]option-a", boolean: true)
+          TestCLI.option(:option_b, short: "-b ARG", in: %w{a b c})
+          TestCLI.option(:option_c, short: "-c ARG")
+        end
+
+        context "when the deprecated option has a replacement" do
+
+          context "and a value_mapper is provided" do
+            before do
+              TestCLI.deprecated_option(:option_x,
+                                        long: "--option-x ARG",
+                                        replacement: :option_b,
+                                        value_mapper: Proc.new { |val| val == "valid" ? "a" : "xxx" } )
+            end
+
+            it "still checks the replacement's 'in' validation list" do
+              expect { cli.parse_options(%w{--option-x invalid}) }.to raise_error SystemExit
+            end
+
+            it "sets the mapped value in the replacement option and the deprecated value in the deprecated option" do
+              cli.parse_options(%w{--option-x valid})
+              expect(cli.config[:option_x]).to eql("valid")
+              expect(cli.config[:option_b]).to eql("a")
+            end
+          end
+
+          context "and a value_mapper is not provided" do
+            context "and keep is set to false in the deprecated option" do
+              before do
+                TestCLI.deprecated_option(:option_x,
+                                          long: "--option-x ARG",
+                                          replacement: :option_c,
+                                          keep: false)
+              end
+              it "captures the replacement value, but does not set the deprecated value" do
+                cli.parse_options %w{--option-x blah}
+                expect(cli.config.key?(:option_x)).to eql false
+                expect(cli.config[:option_c]).to eql "blah"
+              end
+            end
+
+            context "and the replacement and deprecated are both boolean" do
+              before do
+                TestCLI.deprecated_option(:option_x, boolean: true,
+                                          long: "--[no-]option-x",
+                                          replacement: :option_a)
+              end
+              it "sets original and replacement to true when the deprecated flag is used" do
+                cli.parse_options(%w{--option-x})
+                expect(cli.config[:option_x]).to eql true
+                expect(cli.config[:option_a]).to eql true
+              end
+              it "sets the original and replacement to false when the negative deprecated flag is used" do
+                cli.parse_options(%w{--no-option-x})
+                expect(cli.config[:option_x]).to eql false
+                expect(cli.config[:option_a]).to eql false
+              end
+            end
+
+            context "when the replacement does not accept a value" do
+              before do
+                TestCLI.deprecated_option(:option_x,
+                                          long: "--option-x ARG",
+                                          replacement: :option_c)
+              end
+
+              it "will still set the value because you haven't given a custom value mapper to set a true/false value" do
+                cli.parse_options(%w{--option-x BLAH})
+                expect(cli.config[:option_c]).to eql("BLAH")
+              end
+            end
+          end
+        end
+
+        context "when the deprecated option does not have a replacement" do
+          before do
+            TestCLI.deprecated_option(:option_x, short: "-x")
+          end
+          it "warns about the deprecated option being removed" do
+            expect { TestCLI.new.parse_options(%w{-x}) }.to output(/removed in a future release/).to_stdout
+          end
+        end
       end
     end
   end
