@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.description = s.summary
   s.author = "Chef Software, Inc."
   s.email = "info@chef.io"
-  s.homepage = "https://www.github.com/mixlib-cli"
+  s.homepage = "https://github.com/chef/mixlib-cli"
   s.license = "Apache-2.0"
   s.required_ruby_version = ">= 2.4"
 
