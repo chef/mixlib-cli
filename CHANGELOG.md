@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.0.8 -->
-## [2.0.8](https://github.com/chef/mixlib-cli/tree/2.0.8) (2019-06-01)
+<!-- latest_release 2.0.9 -->
+## [2.0.9](https://github.com/chef/mixlib-cli/tree/2.0.9) (2019-06-05)
 
 #### Merged Pull Requests
-- Disable Travis testing &amp; Update codeowners [#62](https://github.com/chef/mixlib-cli/pull/62) ([tas50](https://github.com/tas50))
+- Fix gem homepage url [#64](https://github.com/chef/mixlib-cli/pull/64) ([tsub](https://github.com/tsub))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.6 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix gem homepage url [#64](https://github.com/chef/mixlib-cli/pull/64) ([tsub](https://github.com/tsub)) <!-- 2.0.9 -->
 - Disable Travis testing &amp; Update codeowners [#62](https://github.com/chef/mixlib-cli/pull/62) ([tas50](https://github.com/tas50)) <!-- 2.0.8 -->
 - Setup BuildKite for PR testing [#61](https://github.com/chef/mixlib-cli/pull/61) ([tas50](https://github.com/tas50)) <!-- 2.0.7 -->
 <!-- release_rollup -->
