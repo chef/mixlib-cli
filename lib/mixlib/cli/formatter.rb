@@ -10,6 +10,9 @@ module Mixlib
       # @return [String] the formatted flag name as described above
       def self.combined_option_display_name(short, long)
         usage = ""
+        # short/long may have an argument (--long ARG)
+        # splitting on " " and taking first ensures that we get just
+        # the flag name without the argument if one is present.
         usage << short.split(" ").first if short
         usage << "/" if long && short
         usage << long.split(" ").first if long

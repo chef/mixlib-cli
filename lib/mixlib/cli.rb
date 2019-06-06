@@ -220,13 +220,6 @@ module Mixlib
     # the values supplied by the user, see #config.
     attr_accessor :options
 
-    # Warn if a duplicate item has been added to the options list.
-    # This is intended to notify developers when they're using
-    # mixlib-cli incorrectly - either by specifying an option more than once,
-    # or more commonly from re-specifying options that have been inhereted from a
-    # shared base class.
-    attr_accessor :warn_on_duplicates
-
     # A Hash containing the values supplied by command line options.
     #
     # The behavior and contents of this Hash vary depending on whether
@@ -396,7 +389,8 @@ module Mixlib
     #
     # @return NilClass
     def handle_deprecated_options(show_deprecations)
-      config.keys.each do |opt_key|
+      merge_in_values = {}
+      config.each_key do |opt_key|
         opt_cfg = options[opt_key]
         # Deprecated entries do not have defaults so no matter what
         # separate_default_options are set, if we see a 'config'
@@ -409,7 +403,10 @@ module Mixlib
           # the declared value mapper (defaults to return the same value if caller hasn't
           # provided a mapper).
           deprecated_val = config[opt_key]
-          config[replacement_key] = opt_cfg[:value_mapper].call(deprecated_val)
+
+          # We can't modify 'config' since we're iterating it, apply updates
+          # at the end.
+          merge_in_values[replacement_key] = opt_cfg[:value_mapper].call(deprecated_val)
           config.delete(opt_key) unless opt_cfg[:keep]
         end
 
@@ -420,14 +417,15 @@ module Mixlib
           puts "#{display_name}: #{opt_cfg[:description]}"
         end
       end
+      config.merge!(merge_in_values)
       nil
     end
 
     def build_option_arguments(opt_setting)
       arguments = Array.new
 
-      arguments << opt_setting[:short] unless opt_setting[:short].nil?
-      arguments << opt_setting[:long] unless opt_setting[:long].nil?
+      arguments << opt_setting[:short] if opt_setting[:short]
+      arguments << opt_setting[:long] if opt_setting[:long]
       if opt_setting.key?(:description)
         description = opt_setting[:description].dup
         description << " (required)" if opt_setting[:required]
