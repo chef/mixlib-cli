@@ -326,6 +326,18 @@ describe Mixlib::CLI do
           TestCLI.option(:option_c, short: "-c ARG")
         end
 
+        context "when someone injects an unexpected value into 'config'" do
+          before do
+            cli.config[:surprise] = true
+          end
+          it "parses and preserves both known and unknown config values" do
+            cli.parse_options(%w{--option-a})
+            expect(cli.config[:surprise]).to eql true
+            expect(cli.config[:option_a]).to eql true
+          end
+
+        end
+
         context "when the deprecated option has a replacement" do
 
           context "and a value_mapper is provided" do
