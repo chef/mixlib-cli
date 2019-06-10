@@ -392,11 +392,16 @@ module Mixlib
       merge_in_values = {}
       config.each_key do |opt_key|
         opt_cfg = options[opt_key]
+
         # Deprecated entries do not have defaults so no matter what
         # separate_default_options are set, if we see a 'config'
         # entry that contains a deprecated indicator, then the option was
         # explicitly provided by the caller.
-        next unless opt_cfg[:deprecated]
+        #
+        # opt_cfg may not exist if an inheriting application
+        # has directly inserted values info config.
+        next unless opt_cfg && opt_cfg[:deprecated]
+
         replacement_key = opt_cfg[:replacement]
         if replacement_key
           # This is the value passed into the deprecated flag. We'll use
