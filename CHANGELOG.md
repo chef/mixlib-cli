@@ -1,9 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release -->
+<!-- latest_release 2.1.1 -->
+## [2.1.1](https://github.com/chef/mixlib-cli/tree/2.1.1) (2019-06-10)
+
+#### Merged Pull Requests
+- Don&#39;t explode when there are unknown keys in &#39;config&#39; [#66](https://github.com/chef/mixlib-cli/pull/66) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Don&#39;t explode when there are unknown keys in &#39;config&#39; [#66](https://github.com/chef/mixlib-cli/pull/66) ([marcparadise](https://github.com/marcparadise)) <!-- 2.1.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
