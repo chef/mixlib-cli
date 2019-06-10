@@ -1,20 +1,18 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.1 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [2.1.1](https://github.com/chef/mixlib-cli/tree/2.1.1) (2019-06-10)
 
 #### Merged Pull Requests
 - Don&#39;t explode when there are unknown keys in &#39;config&#39; [#66](https://github.com/chef/mixlib-cli/pull/66) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.1.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Don&#39;t explode when there are unknown keys in &#39;config&#39; [#66](https://github.com/chef/mixlib-cli/pull/66) ([marcparadise](https://github.com/marcparadise)) <!-- 2.1.1 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [2.1.0](https://github.com/chef/mixlib-cli/tree/2.1.0) (2019-06-07)
 
 #### Merged Pull Requests
@@ -22,7 +20,6 @@
 - Disable Travis testing &amp; Update codeowners [#62](https://github.com/chef/mixlib-cli/pull/62) ([tas50](https://github.com/tas50))
 - Fix gem homepage url [#64](https://github.com/chef/mixlib-cli/pull/64) ([tsub](https://github.com/tsub))
 - [MIXLIB-CLI-63] Add deprecated_option support [#65](https://github.com/chef/mixlib-cli/pull/65) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v2.0.6](https://github.com/chef/mixlib-cli/tree/v2.0.6) (2019-05-14)
 
