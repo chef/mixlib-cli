@@ -1,9 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release -->
+<!-- latest_release 2.1.2 -->
+## [2.1.2](https://github.com/chef/mixlib-cli/tree/2.1.2) (2019-06-25)
+
+#### Merged Pull Requests
+- Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50)) <!-- 2.1.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
