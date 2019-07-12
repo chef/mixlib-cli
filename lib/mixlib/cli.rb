@@ -52,8 +52,8 @@ module Mixlib
       # contents will be iterated and cloned as well.
       def deep_dup(object)
         cloned_object = object.respond_to?(:dup) ? object.dup : object
-        if cloned_object.kind_of?(Enumerable)
-          if cloned_object.kind_of?(Hash)
+        if cloned_object.is_a?(Enumerable)
+          if cloned_object.is_a?(Hash)
             new_hash = cloned_object.class.new
             cloned_object.each do |key, value|
               cloned_key = deep_dup(key)
@@ -122,7 +122,8 @@ module Mixlib
       # i
       def option(name, args)
         @options ||= {}
-        raise(ArgumentError, "Option name must be a symbol") unless name.kind_of?(Symbol)
+        raise(ArgumentError, "Option name must be a symbol") unless name.is_a?(Symbol)
+
         @options[name.to_sym] = args
       end
 
@@ -148,12 +149,12 @@ module Mixlib
       # === Returns
       # <Hash> :: The config hash for the created option.
       def deprecated_option(name,
-                            replacement: nil,
-                            long: nil,
-                            short: nil,
-                            boolean: false,
-                            value_mapper: nil,
-                            keep: true)
+        replacement: nil,
+        long: nil,
+        short: nil,
+        boolean: false,
+        value_mapper: nil,
+        keep: true)
 
         description = if replacement
                         replacement_cfg = options[replacement]
@@ -165,15 +166,15 @@ module Mixlib
         value_mapper ||= Proc.new { |v| v }
 
         option(name,
-               long: long,
-               short: short,
-               boolean: boolean,
-               description: description,
-               on: :tail,
-               deprecated: true,
-               keep: keep,
-               replacement: replacement,
-               value_mapper: value_mapper)
+          long: long,
+          short: short,
+          boolean: boolean,
+          description: description,
+          on: :tail,
+          deprecated: true,
+          keep: keep,
+          replacement: replacement,
+          value_mapper: value_mapper)
       end
 
       # Get the hash of current options.
@@ -193,7 +194,8 @@ module Mixlib
       # === Returns
       # @options<Hash>:: The current options hash.
       def options=(val)
-        raise(ArgumentError, "Options must recieve a hash") unless val.kind_of?(Hash)
+        raise(ArgumentError, "Options must recieve a hash") unless val.is_a?(Hash)
+
         @options = val
       end
 
@@ -256,9 +258,9 @@ module Mixlib
     # === Returns
     # object<Mixlib::Config>:: Returns an instance of whatever you wanted :)
     def initialize(*args)
-      @options = Hash.new
-      @config  = Hash.new
-      @default_config = Hash.new
+      @options = {}
+      @config  = {}
+      @default_config = {}
       @opt_parser = nil
 
       # Set the banner
@@ -316,9 +318,10 @@ module Mixlib
           exit 2
         end
         if opt_config[:in]
-          unless opt_config[:in].kind_of?(Array)
+          unless opt_config[:in].is_a?(Array)
             raise(ArgumentError, "Options config key :in must receive an Array")
           end
+
           if config[opt_key] && !opt_config[:in].include?(config[opt_key])
             reqarg = Formatter.combined_option_display_name(opt_config[:short], opt_config[:long])
             puts "#{reqarg}: #{config[opt_key]} is not one of the allowed values: #{Formatter.friendly_opt_list(opt_config[:in])}"
@@ -358,7 +361,7 @@ module Mixlib
                        end
 
           parse_block =
-            Proc.new() do |c|
+            Proc.new do |c|
               config[opt_key] = if opt_val[:proc]
                                   if opt_val[:proc].arity == 2
                                     # New hotness to allow for reducer-style procs.
@@ -427,7 +430,7 @@ module Mixlib
     end
 
     def build_option_arguments(opt_setting)
-      arguments = Array.new
+      arguments = []
 
       arguments << opt_setting[:short] if opt_setting[:short]
       arguments << opt_setting[:long] if opt_setting[:long]

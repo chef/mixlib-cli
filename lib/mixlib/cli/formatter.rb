@@ -25,6 +25,7 @@ module Mixlib
       def self.friendly_opt_list(opt_array)
         opts = opt_array.map { |x| "'#{x}'" }
         return opts.join(" or ") if opts.size < 3
+
         opts[0..-2].join(", ") + ", or " + opts[-1]
       end
     end

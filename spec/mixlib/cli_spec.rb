@@ -103,19 +103,19 @@ describe Mixlib::CLI do
         })
 
         expect(cli.options[:option_file]).to include(
-            boolean: false,
-            deprecated: true,
-            description: "This flag is deprecated. Use -l instead.",
-            exit: nil,
-            in: nil,
-            long: nil,
-            keep: true,
-            proc: nil,
-            replacement: :config_file,
-            required: false,
-            short: "-o FILE",
-            on: :tail,
-            show_options: false
+          boolean: false,
+          deprecated: true,
+          description: "This flag is deprecated. Use -l instead.",
+          exit: nil,
+          in: nil,
+          long: nil,
+          keep: true,
+          proc: nil,
+          replacement: :config_file,
+          required: false,
+          short: "-o FILE",
+          on: :tail,
+          show_options: false
         )
         expect(cli.options[:option_file][:value_mapper].class).to eql(Proc)
       end
@@ -177,8 +177,7 @@ describe Mixlib::CLI do
       it "sets the corresponding config value according to a supplied proc" do
         TestCLI.option(:number,
           short: "-n NUMBER",
-          proc: Proc.new { |config| config.to_i + 2 }
-        )
+          proc: Proc.new { |config| config.to_i + 2 })
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2" ])
         expect(@cli.config[:number]).to eql(4)
@@ -187,8 +186,7 @@ describe Mixlib::CLI do
       it "passes the existing value to two-argument procs" do
         TestCLI.option(:number,
           short: "-n NUMBER",
-          proc: Proc.new { |value, existing| existing ||= []; existing << value; existing }
-        )
+          proc: Proc.new { |value, existing| existing ||= []; existing << value; existing })
         @cli = TestCLI.new
         @cli.parse_options([ "-n", "2", "-n", "3" ])
         expect(@cli.config[:number]).to eql(%w{2 3})
@@ -306,7 +304,7 @@ describe Mixlib::CLI do
         @cli = TestCLI.new
         argv_old = ARGV.dup
         ARGV.replace ["-c", "foo.rb"]
-        @cli.parse_options()
+        @cli.parse_options
         expect(ARGV).to eql(["-c", "foo.rb"])
         ARGV.replace argv_old
       end
@@ -343,9 +341,9 @@ describe Mixlib::CLI do
           context "and a value_mapper is provided" do
             before do
               TestCLI.deprecated_option(:option_x,
-                                        long: "--option-x ARG",
-                                        replacement: :option_b,
-                                        value_mapper: Proc.new { |val| val == "valid" ? "a" : "xxx" } )
+                long: "--option-x ARG",
+                replacement: :option_b,
+                value_mapper: Proc.new { |val| val == "valid" ? "a" : "xxx" } )
             end
 
             it "still checks the replacement's 'in' validation list" do
@@ -363,9 +361,9 @@ describe Mixlib::CLI do
             context "and keep is set to false in the deprecated option" do
               before do
                 TestCLI.deprecated_option(:option_x,
-                                          long: "--option-x ARG",
-                                          replacement: :option_c,
-                                          keep: false)
+                  long: "--option-x ARG",
+                  replacement: :option_c,
+                  keep: false)
               end
               it "captures the replacement value, but does not set the deprecated value" do
                 cli.parse_options %w{--option-x blah}
@@ -395,8 +393,8 @@ describe Mixlib::CLI do
             context "when the replacement does not accept a value" do
               before do
                 TestCLI.deprecated_option(:option_x,
-                                          long: "--option-x ARG",
-                                          replacement: :option_c)
+                  long: "--option-x ARG",
+                  replacement: :option_c)
               end
 
               it "will still set the value because you haven't given a custom value mapper to set a true/false value" do
