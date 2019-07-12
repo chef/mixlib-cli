@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.2 -->
-## [2.1.2](https://github.com/chef/mixlib-cli/tree/2.1.2) (2019-06-25)
+<!-- latest_release 2.1.3 -->
+## [2.1.3](https://github.com/chef/mixlib-cli/tree/2.1.3) (2019-07-12)
 
 #### Merged Pull Requests
-- Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50))
+- Fix chef-style [#71](https://github.com/chef/mixlib-cli/pull/71) ([vsingh-msys](https://github.com/vsingh-msys))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix chef-style [#71](https://github.com/chef/mixlib-cli/pull/71) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 2.1.3 -->
 - Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50)) <!-- 2.1.2 -->
 <!-- release_rollup -->
 
