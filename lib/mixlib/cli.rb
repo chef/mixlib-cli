@@ -153,6 +153,7 @@ module Mixlib
         long: nil,
         short: nil,
         boolean: false,
+        type: nil,
         value_mapper: nil,
         keep: true)
 
@@ -169,6 +170,7 @@ module Mixlib
           long: long,
           short: short,
           boolean: boolean,
+          type: type,
           description: description,
           on: :tail,
           deprecated: true,
@@ -281,6 +283,7 @@ module Mixlib
       @options.each do |config_key, config_opts|
         config_opts[:on] ||= :on
         config_opts[:boolean] ||= false
+        config_opts[:type] ||= nil
         config_opts[:required] ||= false
         config_opts[:proc] ||= nil
         config_opts[:show_options] ||= false
@@ -317,6 +320,29 @@ module Mixlib
           puts @opt_parser
           exit 2
         end
+
+        # Validate if the option type is set
+        # 1. option type: :numeric
+        #  Do nothing if the opt_key value is Numeric
+        #  Otherwise parse the string based on integer or float.
+        #  If parsed value not equal with original one raises ArgumentError
+        #  Re-assign the parsed value config opt_key
+        #
+        if opt_config[:type]
+          case opt_config[:type]
+          when :numeric
+            unless config[opt_key].is_a?(Numeric)
+              value = config[opt_key].index(".") ? config[opt_key].to_f : config[opt_key].to_i
+
+              if value.to_s != config[opt_key]
+                numarg = opt_config[:short] || opt_config[:long]
+                raise(ArgumentError, "You must supply #{opt_config[:type]} value for \"#{numarg}\"!")
+              end
+              config[opt_key] = value
+            end
+          end
+        end
+
         if opt_config[:in]
           unless opt_config[:in].is_a?(Array)
             raise(ArgumentError, "Options config key :in must receive an Array")

@@ -100,6 +100,7 @@ describe Mixlib::CLI do
             show_options: false,
             exit: nil,
             in: nil,
+            type: nil,
         })
 
         expect(cli.options[:option_file]).to include(
@@ -314,6 +315,35 @@ describe Mixlib::CLI do
         @cli = TestCLI.new
         expect(@cli.parse_options([ "easy", "-p", "opscode", "hard" ])).to eql(%w{easy hard})
         expect(@cli.cli_arguments).to eql(%w{easy hard})
+      end
+
+      describe "with type option" do
+        let(:cli) { TestCLI.new }
+        context "when type option is numeric" do
+          it "allow integer value to set" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            cli.parse_options(["-i", "22"])
+            expect(cli.config[:parse_me]).to eql(22)
+          end
+
+          it "allow float value to set" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            cli.parse_options(["-i", "22.22"])
+            expect(cli.config[:parse_me]).to eql(22.22)
+          end
+
+          it "exit if invalid value supply" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            expect { cli.parse_options(["-i", "test"]) }.to raise_error(ArgumentError)
+          end
+
+          it "doesn't exit if option is nil and not required" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            expect do
+              expect(@cli.parse_options([])).to eql []
+            end.to_not raise_error
+          end
+        end
       end
 
       describe "with non-deprecated and deprecated options" do
