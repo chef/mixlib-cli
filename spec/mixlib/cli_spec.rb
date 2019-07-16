@@ -332,6 +332,18 @@ describe Mixlib::CLI do
             expect(cli.config[:parse_me]).to eql(22.22)
           end
 
+          it "allow negative integer value to set" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            cli.parse_options(["-i", "-22"])
+            expect(cli.config[:parse_me]).to eql(-22)
+          end
+
+          it "allow negative float value to set" do
+            TestCLI.option(:parse_me, short: "-i val", type: :numeric)
+            cli.parse_options(["-i", "-22.22"])
+            expect(cli.config[:parse_me]).to eql(-22.22)
+          end
+
           it "exit if invalid value supply" do
             TestCLI.option(:parse_me, short: "-i val", type: :numeric)
             expect { cli.parse_options(["-i", "test"]) }.to raise_error(ArgumentError)

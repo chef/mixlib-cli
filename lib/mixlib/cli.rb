@@ -136,6 +136,7 @@ module Mixlib
       # long<String> :: The original long flag name, or flag name with argument, eg "--user USER"
       # short<String>  :: The original short-form flag name, eg "-u USER"
       # boolean<String> :: true if this is a boolean flag, eg "--[no-]option".
+      # type<Symbol> :: Validate the option as the specified type. Supports `:numeric` to parse an integer or float.
       # value_mapper<Proc/1> :: a block that accepts the original value from the deprecated option,
       #                   and converts it to a value suitable for the new option.
       #                   If not provided, the value provided to the deprecated option will be
@@ -328,8 +329,7 @@ module Mixlib
         #  If parsed value not equal with original one raises ArgumentError
         #  Re-assign the parsed value config opt_key
         #
-        if opt_config[:type]
-          case opt_config[:type]
+        case opt_config[:type]
           when :numeric
             unless config[opt_key].is_a?(Numeric)
               value = config[opt_key].index(".") ? config[opt_key].to_f : config[opt_key].to_i
@@ -340,7 +340,6 @@ module Mixlib
               end
               config[opt_key] = value
             end
-          end
         end
 
         if opt_config[:in]
