@@ -3,9 +3,9 @@ source "https://rubygems.org"
 gemspec
 
 group :docs do
-  gem "yard"
-  gem "redcarpet"
   gem "github-markup"
+  gem "redcarpet"
+  gem "yard"
 end
 
 group :test do
