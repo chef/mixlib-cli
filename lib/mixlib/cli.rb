@@ -17,7 +17,7 @@
 #
 
 require "optparse"
-require "mixlib/cli/formatter"
+require_relative "cli/formatter"
 module Mixlib
 
   # == Mixlib::CLI
