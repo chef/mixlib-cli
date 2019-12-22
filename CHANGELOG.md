@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.5 -->
-## [v2.1.5](https://github.com/chef/mixlib-cli/tree/v2.1.5) (2019-12-19)
+<!-- latest_release 2.1.6 -->
+## [v2.1.6](https://github.com/chef/mixlib-cli/tree/v2.1.6) (2019-12-22)
 
 #### Merged Pull Requests
-- Test on Ruby 2.7 + random testing improvements [#75](https://github.com/chef/mixlib-cli/pull/75) ([tas50](https://github.com/tas50))
+- Substitute require for require_relative [#76](https://github.com/chef/mixlib-cli/pull/76) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Substitute require for require_relative [#76](https://github.com/chef/mixlib-cli/pull/76) ([tas50](https://github.com/tas50)) <!-- 2.1.6 -->
 - Test on Ruby 2.7 + random testing improvements [#75](https://github.com/chef/mixlib-cli/pull/75) ([tas50](https://github.com/tas50)) <!-- 2.1.5 -->
 - Add windows PR testing with Buildkite [#73](https://github.com/chef/mixlib-cli/pull/73) ([tas50](https://github.com/tas50)) <!-- 2.1.4 -->
 - Fix chef-style [#71](https://github.com/chef/mixlib-cli/pull/71) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 2.1.3 -->
