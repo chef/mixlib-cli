@@ -7,23 +7,27 @@
 - Substitute require for require_relative [#76](https://github.com/chef/mixlib-cli/pull/76) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.1 -->
+<!-- release_rollup since=2.1.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
 - Substitute require for require_relative [#76](https://github.com/chef/mixlib-cli/pull/76) ([tas50](https://github.com/tas50)) <!-- 2.1.6 -->
-- Test on Ruby 2.7 + random testing improvements [#75](https://github.com/chef/mixlib-cli/pull/75) ([tas50](https://github.com/tas50)) <!-- 2.1.5 -->
-- Add windows PR testing with Buildkite [#73](https://github.com/chef/mixlib-cli/pull/73) ([tas50](https://github.com/tas50)) <!-- 2.1.4 -->
-- Fix chef-style [#71](https://github.com/chef/mixlib-cli/pull/71) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 2.1.3 -->
-- Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50)) <!-- 2.1.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.5](https://github.com/chef/mixlib-cli/tree/v2.1.5) (2019-12-22)
+
+#### Merged Pull Requests
+- Use our standard rakefile [#68](https://github.com/chef/mixlib-cli/pull/68) ([tas50](https://github.com/tas50))
+- Fix chef-style [#71](https://github.com/chef/mixlib-cli/pull/71) ([vsingh-msys](https://github.com/vsingh-msys))
+- Add windows PR testing with Buildkite [#73](https://github.com/chef/mixlib-cli/pull/73) ([tas50](https://github.com/tas50))
+- Test on Ruby 2.7 + random testing improvements [#75](https://github.com/chef/mixlib-cli/pull/75) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [2.1.1](https://github.com/chef/mixlib-cli/tree/2.1.1) (2019-06-10)
 
 #### Merged Pull Requests
 - Don&#39;t explode when there are unknown keys in &#39;config&#39; [#66](https://github.com/chef/mixlib-cli/pull/66) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [2.1.0](https://github.com/chef/mixlib-cli/tree/2.1.0) (2019-06-07)
 
