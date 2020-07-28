@@ -140,7 +140,7 @@ module Mixlib
       #                   and converts it to a value suitable for the new option.
       #                   If not provided, the value provided to the deprecated option will be
       #                   assigned directly to the converted option.
-      # keep<Boolean> :: Defaults to true, this ensure sthat `options[:deprecated_flag]` is
+      # keep<Boolean> :: Defaults to true, this ensures that `options[:deprecated_flag]` is
       #                  populated when the deprecated flag is used. If set to false,
       #                  only the value in `replacement` will be set.  Results undefined
       #                  if no replacement is provided. You can use this to enforce the transition
@@ -194,7 +194,7 @@ module Mixlib
       # === Returns
       # @options<Hash>:: The current options hash.
       def options=(val)
-        raise(ArgumentError, "Options must recieve a hash") unless val.is_a?(Hash)
+        raise(ArgumentError, "Options must receive a hash") unless val.is_a?(Hash)
 
         @options = val
       end

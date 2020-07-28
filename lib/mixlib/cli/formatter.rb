@@ -19,7 +19,7 @@ module Mixlib
         usage
       end
 
-      # @param opt_arry [Array]
+      # @param opt_array [Array]
       #
       # @return [String] a friendly quoted list of items complete with "or"
       def self.friendly_opt_list(opt_array)
