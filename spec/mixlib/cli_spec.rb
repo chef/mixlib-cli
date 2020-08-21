@@ -299,7 +299,7 @@ describe Mixlib::CLI do
         expect(@cli.config[:require_me]).to eql("")
       end
 
-      it "preserves all of the commandline arguments, ARGV" do
+      it "preserves all of the command line arguments, ARGV" do
         TestCLI.option(:config_file, short: "-c CONFIG")
         @cli = TestCLI.new
         argv_old = ARGV.dup

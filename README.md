@@ -109,7 +109,7 @@ Given the following example:
 
 ```ruby
 
-# mycli.rb
+# my_cli.rb
 
 class MyCLI
   include Mixlib::CLI
@@ -166,7 +166,7 @@ In this example, --dep-one will be used.  Note that dep_one will not have a valu
 
 ```bash
 
-$ ruby mycli.rb --dep-one
+$ ruby my_cli.rb --dep-one
 
 -1/--dep-one: This flag is deprecated. Use -n/--arg-not-required instead
 arg_not_required: true
@@ -178,12 +178,12 @@ that --arg-required will accept,a nd populate `:arg\_required` with
 
 ```bash
 
-$ ruby mycli.rb --dep-two z # 'q' maps to 'invalid' in the value_mapper proc above
+$ ruby my_cli.rb --dep-two z # 'q' maps to 'invalid' in the value_mapper proc above
 
 -2/--dep-two: This flag is deprecated. Use -a/--arg-required instead.
 
 arg_required: a # The value is mapped to its replacement using the function provided.
-dep_two: z  # the deprected value is kept by default
+dep_two: z  # the deprecated value is kept by default
 ```
 
 In this example, the value provided to dep-two will be converted to a value
@@ -191,7 +191,7 @@ that --arg-required will reject, showing how content rules are applied even when
 the input is coming from a deprecated option:
 
 ```bash
-$ ruby mycli.rb --dep-two q
+$ ruby my_cli.rb --dep-two q
 
 -2/--dep-two: This flag is deprecated. Use -a/--arg-required instead.
 -a/--arg-required: invalid is not one of the allowed values: 'a', 'b', or 'c'
