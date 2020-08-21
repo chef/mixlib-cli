@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-require "optparse"
+require "optparse" unless defined?(OptionParser)
 require_relative "cli/formatter"
 module Mixlib
 
