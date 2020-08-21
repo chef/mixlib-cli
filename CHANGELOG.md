@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.7 -->
-## [v2.1.7](https://github.com/chef/mixlib-cli/tree/v2.1.7) (2020-08-21)
+<!-- latest_release 2.1.8 -->
+## [v2.1.8](https://github.com/chef/mixlib-cli/tree/v2.1.8) (2020-08-21)
 
 #### Merged Pull Requests
-- Fix minor typos [#77](https://github.com/chef/mixlib-cli/pull/77) ([tas50](https://github.com/tas50))
+- Optimize our requires [#78](https://github.com/chef/mixlib-cli/pull/78) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.6 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Optimize our requires [#78](https://github.com/chef/mixlib-cli/pull/78) ([tas50](https://github.com/tas50)) <!-- 2.1.8 -->
 - Fix minor typos [#77](https://github.com/chef/mixlib-cli/pull/77) ([tas50](https://github.com/tas50)) <!-- 2.1.7 -->
 <!-- release_rollup -->
 
