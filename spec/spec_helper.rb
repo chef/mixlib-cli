@@ -1,5 +1,5 @@
 $TESTING = true
-$:.push File.join(File.dirname(__FILE__), "..", "lib")
+$:.push File.join(__dir__, "..", "lib")
 
 require "mixlib/cli"
 
