@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-require File.expand_path(File.join(__dir__, "..", "spec_helper"))
+require "spec_helper"
 
 describe Mixlib::CLI do
   after(:each) do
