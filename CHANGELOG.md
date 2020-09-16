@@ -1,9 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release -->
+<!-- latest_release 2.1.9 -->
+## [v2.1.9](https://github.com/chef/mixlib-cli/tree/v2.1.9) (2020-09-16)
+
+#### Merged Pull Requests
+- Replaces uses of __FILE__ with __dir__ [#79](https://github.com/chef/mixlib-cli/pull/79) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.8 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Replaces uses of __FILE__ with __dir__ [#79](https://github.com/chef/mixlib-cli/pull/79) ([tas50](https://github.com/tas50)) <!-- 2.1.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
