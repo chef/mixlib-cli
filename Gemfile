@@ -10,8 +10,8 @@ end
 
 group :test do
   gem "chefstyle"
-  gem "rspec", "~> 3.0"
   gem "rake"
+  gem "rspec", "~> 3.0"
 end
 
 group :debug do
