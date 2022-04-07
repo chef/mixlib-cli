@@ -465,6 +465,7 @@ describe Mixlib::CLI do
       class T3 < TestCLI
         option :arg2, boolean: true
       end
+
       class T4 < T3
         option :arg3, boolean: true
       end
