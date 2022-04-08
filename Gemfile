@@ -12,7 +12,7 @@ group :test do
   gem "chefstyle"
   gem "rake"
   gem "rspec", "~> 3.0"
-  gem "rubocop-ast", "~> 1.4.1" # Drop this dependency/version when we remove ruby-2.4 support
+  gem "rubocop-ast", "~> 1.16.0" # Drop this dependency/version when we remove ruby-2.4 support
 end
 
 group :debug do
