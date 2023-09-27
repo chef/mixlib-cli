@@ -1,7 +1,7 @@
 Mixin::CLI NOTICE
 =================
 
-Developed at Chef (http://www.chef.io).
+Developed at Chef (https://www.chef.io).
 
 
  * Copyright 2009-2018, Chef Software, Inc. <legal@chef.io>
@@ -11,7 +11,7 @@ Mixin::CLI incorporates code from Chef.  The Chef notice file follows:
 Chef NOTICE
 ===========
 
-Developed at Chef (http://www.chef.io).
+Developed at Chef (https://www.chef.io).
 
 Contributors and Copyright holders:
 
@@ -23,4 +23,4 @@ Contributors and Copyright holders:
  * Copyright 2009, Christopher Brown <cb@chef.io>
  * Copyright 2009, Thom May <thom@clearairturbulence.org>
 
-Chef incorporates code modified from Open4 (http://www.codeforpeople.com/lib/ruby/open4/), which was written by Ara T. Howard.
+Chef incorporates code modified from Open4 (https://github.com/ahoward/open4), which was written by Ara T. Howard.
