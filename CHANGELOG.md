@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.11 -->
-## [v2.1.11](https://github.com/chef/mixlib-cli/tree/v2.1.11) (2023-09-27)
+<!-- latest_release 2.1.12 -->
+## [v2.1.12](https://github.com/chef/mixlib-cli/tree/v2.1.12) (2023-09-27)
 
 #### Merged Pull Requests
-- Bump mixlib-cli to use at least 2.7 to fix tests [#102](https://github.com/chef/mixlib-cli/pull/102) ([jaymzh](https://github.com/jaymzh))
+- change http to https, replace 404 Open4 link [#101](https://github.com/chef/mixlib-cli/pull/101) ([hhthacker](https://github.com/hhthacker))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- change http to https, replace 404 Open4 link [#101](https://github.com/chef/mixlib-cli/pull/101) ([hhthacker](https://github.com/hhthacker)) <!-- 2.1.12 -->
 - Bump mixlib-cli to use at least 2.7 to fix tests [#102](https://github.com/chef/mixlib-cli/pull/102) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.11 -->
 - Upgrade to GitHub-native Dependabot [#80](https://github.com/chef/mixlib-cli/pull/80) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 2.1.10 -->
 - Replaces uses of __FILE__ with __dir__ [#79](https://github.com/chef/mixlib-cli/pull/79) ([tas50](https://github.com/tas50)) <!-- 2.1.9 -->
