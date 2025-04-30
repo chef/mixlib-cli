@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.14 -->
-## [v2.1.14](https://github.com/chef/mixlib-cli/tree/v2.1.14) (2025-04-30)
+<!-- latest_release 2.1.15 -->
+## [v2.1.15](https://github.com/chef/mixlib-cli/tree/v2.1.15) (2025-04-30)
 
 #### Merged Pull Requests
-- Update pry-stack_explorer requirement from ~&gt; 0.4.0 to ~&gt; 0.6.1 [#85](https://github.com/chef/mixlib-cli/pull/85) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Drop rubocop-ast pin [#108](https://github.com/chef/mixlib-cli/pull/108) ([jaymzh](https://github.com/jaymzh))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Drop rubocop-ast pin [#108](https://github.com/chef/mixlib-cli/pull/108) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.15 -->
 - Update pry-stack_explorer requirement from ~&gt; 0.4.0 to ~&gt; 0.6.1 [#85](https://github.com/chef/mixlib-cli/pull/85) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 2.1.14 -->
 - Bump min version to 3.0 and lock byebug to a version that will work [#106](https://github.com/chef/mixlib-cli/pull/106) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.13 -->
 - change http to https, replace 404 Open4 link [#101](https://github.com/chef/mixlib-cli/pull/101) ([hhthacker](https://github.com/hhthacker)) <!-- 2.1.12 -->
