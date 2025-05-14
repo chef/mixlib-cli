@@ -375,8 +375,8 @@ describe Mixlib::CLI do
             context "and the replacement and deprecated are both boolean" do
               before do
                 TestCLI.deprecated_option(:option_x, boolean: true,
-                                          long: "--[no-]option-x",
-                                          replacement: :option_a)
+                  long: "--[no-]option-x",
+                  replacement: :option_a)
               end
               it "sets original and replacement to true when the deprecated flag is used" do
                 cli.parse_options(%w{--option-x})

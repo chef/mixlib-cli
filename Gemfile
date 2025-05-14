@@ -9,10 +9,8 @@ group :docs do
 end
 
 group :test do
-  gem "chefstyle"
   gem "rake"
   gem "rspec", "~> 3.0"
-  gem "rubocop-ast"
 end
 
 group :debug do
