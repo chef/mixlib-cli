@@ -10,8 +10,9 @@ Gem::Specification.new do |s|
   s.email = "info@chef.io"
   s.homepage = "https://github.com/chef/mixlib-cli"
   s.license = "Apache-2.0"
-  s.required_ruby_version = ">= 3.0"
+  s.required_ruby_version = ">= 3.1"
 
   s.require_path = "lib"
   s.files = %w{LICENSE NOTICE} + Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
+  s.add_development_dependency "cookstyle", "~> 8.1"
 end
