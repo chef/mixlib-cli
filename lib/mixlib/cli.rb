@@ -155,7 +155,6 @@ module Mixlib
         boolean: false,
         value_mapper: nil,
         keep: true)
-
         description = if replacement
                         replacement_cfg = options[replacement]
                         display_name = CLI::Formatter.combined_option_display_name(replacement_cfg[:short], replacement_cfg[:long])
