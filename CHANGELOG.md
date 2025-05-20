@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.1.16 -->
-## [v2.1.16](https://github.com/chef/mixlib-cli/tree/v2.1.16) (2025-05-12)
+<!-- latest_release 2.2.0 -->
+## [v2.2.0](https://github.com/chef/mixlib-cli/tree/v2.2.0) (2025-05-20)
 
 #### Merged Pull Requests
-- add myself to codeowners [#105](https://github.com/chef/mixlib-cli/pull/105) ([jaymzh](https://github.com/jaymzh))
+- Updating Ruby [#109](https://github.com/chef/mixlib-cli/pull/109) ([johnmccrae](https://github.com/johnmccrae))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Updating Ruby [#109](https://github.com/chef/mixlib-cli/pull/109) ([johnmccrae](https://github.com/johnmccrae)) <!-- 2.2.0 -->
 - add myself to codeowners [#105](https://github.com/chef/mixlib-cli/pull/105) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.16 -->
 - Drop rubocop-ast pin [#108](https://github.com/chef/mixlib-cli/pull/108) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.15 -->
 - Update pry-stack_explorer requirement from ~&gt; 0.4.0 to ~&gt; 0.6.1 [#85](https://github.com/chef/mixlib-cli/pull/85) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 2.1.14 -->
