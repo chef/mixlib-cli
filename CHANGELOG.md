@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.2.1 -->
-## [v2.2.1](https://github.com/chef/mixlib-cli/tree/v2.2.1) (2025-05-27)
+<!-- latest_release 2.2.2 -->
+## [v2.2.2](https://github.com/chef/mixlib-cli/tree/v2.2.2) (2025-09-02)
 
 #### Merged Pull Requests
-- Update byebug requirement from ~&gt; 11.1 to ~&gt; 12.0 [#110](https://github.com/chef/mixlib-cli/pull/110) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Add GitHub Security Actions Workflow [#111](https://github.com/chef/mixlib-cli/pull/111) ([sean-sype-simmons](https://github.com/sean-sype-simmons))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add GitHub Security Actions Workflow [#111](https://github.com/chef/mixlib-cli/pull/111) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 2.2.2 -->
 - Update byebug requirement from ~&gt; 11.1 to ~&gt; 12.0 [#110](https://github.com/chef/mixlib-cli/pull/110) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 2.2.1 -->
 - Updating Ruby [#109](https://github.com/chef/mixlib-cli/pull/109) ([johnmccrae](https://github.com/johnmccrae)) <!-- 2.2.0 -->
 - add myself to codeowners [#105](https://github.com/chef/mixlib-cli/pull/105) ([jaymzh](https://github.com/jaymzh)) <!-- 2.1.16 -->
