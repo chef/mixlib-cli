@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
 
   s.require_path = "lib"
   s.files = %w{LICENSE NOTICE} + Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
-  s.add_development_dependency "cookstyle", "~> 8.1"
+  s.add_development_dependency "cookstyle", "~> 9.0"
 end
