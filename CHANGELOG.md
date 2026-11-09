@@ -1,16 +1,17 @@
 # mixlib-cli Changelog
 
-<!-- latest_release 2.2.4 -->
-## [v2.2.4](https://github.com/chef/mixlib-cli/tree/v2.2.4) (2026-07-28)
+<!-- latest_release 2.2.5 -->
+## [v2.2.5](https://github.com/chef/mixlib-cli/tree/v2.2.5) (2026-11-09)
 
 #### Merged Pull Requests
-- CHEF-27672 Update and standardize copyright notices to Progress Software Corporation - copyright_update [#117](https://github.com/chef/mixlib-cli/pull/117) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Replace retired Windows 2019 runner [#119](https://github.com/chef/mixlib-cli/pull/119) ([tpowell-progress](https://github.com/tpowell-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Replace retired Windows 2019 runner [#119](https://github.com/chef/mixlib-cli/pull/119) ([tpowell-progress](https://github.com/tpowell-progress)) <!-- 2.2.5 -->
 - CHEF-27672 Update and standardize copyright notices to Progress Software Corporation - copyright_update [#117](https://github.com/chef/mixlib-cli/pull/117) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.2.4 -->
 - set up ai assisted development workflow [#115](https://github.com/chef/mixlib-cli/pull/115) ([rishichawda](https://github.com/rishichawda)) <!-- 2.2.3 -->
 - Add GitHub Security Actions Workflow [#111](https://github.com/chef/mixlib-cli/pull/111) ([sean-sype-simmons](https://github.com/sean-sype-simmons)) <!-- 2.2.2 -->
